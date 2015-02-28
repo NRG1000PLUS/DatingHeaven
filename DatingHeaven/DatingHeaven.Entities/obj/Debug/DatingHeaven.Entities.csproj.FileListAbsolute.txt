@@ -1,0 +1,5 @@
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\bin\Debug\DatingHeaven.Entities.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\bin\Debug\DatingHeaven.Entities.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\obj\Debug\DatingHeaven.Entities.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\obj\Debug\DatingHeaven.Entities.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\bin\Debug\DatingHeaven.Entities.dll.config

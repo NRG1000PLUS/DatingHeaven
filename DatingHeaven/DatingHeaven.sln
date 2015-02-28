@@ -1,0 +1,48 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatingHeaven.Core", "DatingHeaven.Core\DatingHeaven.Core.csproj", "{5EDCF264-5505-42C5-B983-DE0AAFB28BF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatingHeaven.Entities", "DatingHeaven.Entities\DatingHeaven.Entities.csproj", "{B663A26A-A35B-41D1-953E-8CDD92872EAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseTests", "BaseTests\BaseTests.csproj", "{28022EDB-1E42-4092-9F35-7142B15AC47A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6F69E103-A141-47B1-A5E7-72D44F7800A7}"
+	ProjectSection(SolutionItems) = preProject
+		DatingHeaven.vsmdi = DatingHeaven.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatingHeaven.DataAccessLayer", "DatingHeaven.DataAccessLayer\DatingHeaven.DataAccessLayer.csproj", "{36DE29DF-ECC4-4C8B-BDCD-A679DABFD2FE}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = DatingHeaven.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5EDCF264-5505-42C5-B983-DE0AAFB28BF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EDCF264-5505-42C5-B983-DE0AAFB28BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EDCF264-5505-42C5-B983-DE0AAFB28BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EDCF264-5505-42C5-B983-DE0AAFB28BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B663A26A-A35B-41D1-953E-8CDD92872EAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B663A26A-A35B-41D1-953E-8CDD92872EAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B663A26A-A35B-41D1-953E-8CDD92872EAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B663A26A-A35B-41D1-953E-8CDD92872EAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28022EDB-1E42-4092-9F35-7142B15AC47A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28022EDB-1E42-4092-9F35-7142B15AC47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28022EDB-1E42-4092-9F35-7142B15AC47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28022EDB-1E42-4092-9F35-7142B15AC47A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36DE29DF-ECC4-4C8B-BDCD-A679DABFD2FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36DE29DF-ECC4-4C8B-BDCD-A679DABFD2FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36DE29DF-ECC4-4C8B-BDCD-A679DABFD2FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36DE29DF-ECC4-4C8B-BDCD-A679DABFD2FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

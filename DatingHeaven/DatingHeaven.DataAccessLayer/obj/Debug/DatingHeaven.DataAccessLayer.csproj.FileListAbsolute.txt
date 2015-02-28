@@ -1,0 +1,7 @@
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\obj\Debug\DatingHeaven.DataAccessLayer.csprojResolveAssemblyReference.cache
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\DatingHeaven.DataAccessLayer.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\DatingHeaven.DataAccessLayer.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\DatingHeaven.Entities.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\DatingHeaven.Entities.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\obj\Debug\DatingHeaven.DataAccessLayer.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\obj\Debug\DatingHeaven.DataAccessLayer.pdb
