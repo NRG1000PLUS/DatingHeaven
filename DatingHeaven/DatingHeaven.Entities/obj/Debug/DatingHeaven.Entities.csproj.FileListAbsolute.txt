@@ -3,3 +3,7 @@ C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entitie
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\obj\Debug\DatingHeaven.Entities.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\obj\Debug\DatingHeaven.Entities.pdb
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\bin\Debug\DatingHeaven.Entities.dll.config
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\bin\Debug\EntityFramework.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\bin\Debug\EntityFramework.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Entities\bin\Debug\EntityFramework.SqlServer.xml

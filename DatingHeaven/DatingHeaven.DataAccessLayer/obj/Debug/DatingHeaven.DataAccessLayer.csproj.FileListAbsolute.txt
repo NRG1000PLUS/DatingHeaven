@@ -5,3 +5,8 @@ C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAcc
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\DatingHeaven.Entities.pdb
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\obj\Debug\DatingHeaven.DataAccessLayer.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\obj\Debug\DatingHeaven.DataAccessLayer.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\DatingHeaven.DataAccessLayer.dll.config
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\EntityFramework.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\EntityFramework.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\EntityFramework.SqlServer.xml

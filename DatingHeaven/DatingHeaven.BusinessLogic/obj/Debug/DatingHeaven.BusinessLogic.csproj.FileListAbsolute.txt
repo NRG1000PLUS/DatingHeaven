@@ -1,0 +1,11 @@
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\DatingHeaven.BusinessLogic.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\DatingHeaven.BusinessLogic.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\obj\Debug\DatingHeaven.BusinessLogic.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\obj\Debug\DatingHeaven.BusinessLogic.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\DatingHeaven.DataAccessLayer.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\DatingHeaven.Entities.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\EntityFramework.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\DatingHeaven.DataAccessLayer.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\DatingHeaven.Entities.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\EntityFramework.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\obj\Debug\DatingHeaven.BusinessLogic.csprojResolveAssemblyReference.cache

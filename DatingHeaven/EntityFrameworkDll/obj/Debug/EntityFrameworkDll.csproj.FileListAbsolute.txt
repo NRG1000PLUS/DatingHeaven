@@ -1,0 +1,10 @@
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\EntityFrameworkDll.dll.config
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\EntityFrameworkDll.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\EntityFrameworkDll.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\EntityFramework.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\EntityFramework.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\obj\Debug\EntityFrameworkDll.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\obj\Debug\EntityFrameworkDll.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\obj\Debug\EntityFrameworkDll.csprojResolveAssemblyReference.cache

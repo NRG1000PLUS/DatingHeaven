@@ -31,9 +31,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net40\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.2\lib\net40\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,11 +47,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Services\EntityInfoService.cs" />
-    <Compile Include="Services\IEntityInfoService.cs" />
+    <Compile Include="DatingHeavenDbContext.cs" />
+    <Compile Include="IDbContext.cs" />
+    <Compile Include="Infrastructure\EntityOperations\EntityContextProvider.cs" />
+    <Compile Include="Infrastructure\EntityOperations\IEntityContextProvider.cs" />
+    <Compile Include="Infrastructure\EntityInfoResolver.cs" />
+    <Compile Include="Infrastructure\IEntityChangesLogService.cs" />
+    <Compile Include="Infrastructure\IEntityInfoResolver.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
+    <Compile Include="EfRepository.cs" />
     <Compile Include="Settings\EntityInfoServiceSettings.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -54,7 +65,10 @@
       <Name>DatingHeaven.Entities</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

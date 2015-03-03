@@ -2,24 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using DatingHeaven.Entities.Domain;
+using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer {
     public interface IRepository<T> where T: BaseEntity{
         /// <summary>
         /// Get entity by Id
         /// </summary>
-        T GetById(int id);
+        T GetById(object id);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        T GetByIdWithHidden(object id);
 
         /// <summary>
         /// Get all entities
         /// </summary>
         IList<T> GetAll();
 
+
+        IList<T> GetWhere(Func<T, bool> predicate);
+
+
+        IList<T> GetWhereWithHidden(Func<T, bool> predicate);
+
+
         /// <summary>
-        /// Mark the current entity as deleted
+        /// Admin method to get all entities, including the HIDDEN/DELETED ones
         /// </summary>
-        void MarkAsDeleted(int id);
+        /// <returns></returns>
+        IList<T> GetAllWithHidden(); 
+
+        /// <summary>
+        /// Mark the current entity as DELETED
+        /// </summary>
+        void Hide(object id);
 
         /// <summary>
         /// Update the current entity

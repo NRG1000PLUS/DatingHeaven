@@ -1,9 +1,14 @@
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\BaseTests.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\BaseTests.pdb
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\DatingHeaven.Entities.dll
-C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\NHibernate.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\DatingHeaven.Entities.pdb
-C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\NHibernate.xml
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\obj\Debug\BaseTests.csprojResolveAssemblyReference.cache
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\obj\Debug\BaseTests.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\obj\Debug\BaseTests.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\BaseTests.dll.config
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\DatingHeaven.DataAccessLayer.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\EntityFramework.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\DatingHeaven.DataAccessLayer.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\EntityFramework.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\EntityFramework.SqlServer.xml
