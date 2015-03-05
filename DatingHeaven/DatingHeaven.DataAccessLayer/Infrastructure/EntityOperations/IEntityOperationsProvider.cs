@@ -9,9 +9,8 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
     public interface IEntityOperationsProvider{
         /// <summary>
         /// 
-        /// </summary>>
-        /// <returns></returns>
-        object GetProperty<T>(object entityId, string property ) where T: BaseEntity;
+        /// </summary>
+        object GetProperty<T>(object entityId, string property) where T: BaseBusinessEntity;
 
         /// <summary>
         /// 
@@ -22,7 +21,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
         /// <param name="property"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        void SetPropery<T>(object entityId, string property, object value);
+        void SetProperty<T>(object entityId, string property, object value) where T: BaseBusinessEntity;
 
         /// <summary>
         /// 
@@ -31,6 +30,6 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
         /// <param name="propertySelector"></param>
         /// <param name="propertyValue"></param>
         /// <returns></returns>
-        T GetEntityByProperty<T>(Func<T, object> propertySelector, object propertyValue) where T : BaseEntity;
+        T SearchByProperty<T>(Func<T, object> propertySelector, object propertyValue) where T : BaseBusinessEntity;
     }
 }

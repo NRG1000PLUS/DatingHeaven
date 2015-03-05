@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
 using DatingHeaven.Entities;
 
-namespace DatingHeaven.DataAccessLayer.Infrastructure {
-    public class EntityInfoResolver: IEntityInfoResolver{
-        private static readonly Dictionary<Type, string> TableNames = new Dictionary<Type, string>(); 
+namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
+    public class EntityTableInfoResolver: IEntityTableInfoResolver{
+        private static readonly Dictionary<Type, TableAttribute> TableNames = new Dictionary<Type, TableAttribute>(); 
 
-        public string ResolveTableName<T>() where T : BaseEntity {
+        public string GetTableName<T>() where T : BaseEntity {
             if (HasTableName<T>()){
                 // table name for type 'T> is known, get it
-                return GetTableName<T>();
+                return TableNames[typeof (T)].Name;
             } else{
                 lock (TableNames){
-                    // solve table name
-                    SolveTableName<T>();
-                    return GetTableName<T>();
+                    if (!HasTableName<T>()){
+                        // solve table name
+                        SolveTableName<T>();
+                    }
+
+                    return TableNames[typeof (T)].Name;
                 }
             }
         }
@@ -33,24 +35,17 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure {
 
             var tableAttribute = (attributes[0] as TableAttribute);
 
-            TableNames.Add( type, tableAttribute.Name);
+            TableNames.Add( type, tableAttribute);
         }
 
-        private bool HasTableName<TEntity>() where TEntity : BaseEntity{
+        private bool HasTableName<TEntity>(){
 
             return TableNames.ContainsKey(typeof (TEntity));
         }
 
-        private string GetTableName<TEntity>() where TEntity : BaseEntity{
-
-            return TableNames[typeof (TEntity)];
-        }
 
 
-
-
-
-        public Func<System.Data.Entity.Core.Objects.ObjectContext, object> GetExpression(string tableName) {
+        public string GetTableSchema<T>() where T : BaseEntity {
             throw new NotImplementedException();
         }
     }

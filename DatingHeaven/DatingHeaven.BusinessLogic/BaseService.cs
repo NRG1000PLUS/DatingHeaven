@@ -14,9 +14,10 @@ namespace DatingHeaven.BusinessLogic {
 
         protected BaseService(IEntityOperationsProvider entityContextProvider){
             _entityContextProvider = entityContextProvider;
+            
         }
 
-        protected IEntityOperationsProvider EntityContext{
+        protected IEntityOperationsProvider EntityOperations{
             get{
                 return _entityContextProvider;
             }

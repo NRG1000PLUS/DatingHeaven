@@ -53,7 +53,7 @@ namespace DatingHeaven.DataAccessLayer {
             });
         }
 
-        public DbSet<T> GetSet<T>() where T : BaseEntity{
+        public DbSet<T> GetSet<T>() where T : BaseBusinessEntity{
             return base.Set<T>();
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer {
-    public interface IRepository<T> where T: BaseEntity{
+    public interface IRepository<T> where T: BaseBusinessEntity{
         /// <summary>
         /// Get entity by Id
         /// </summary>

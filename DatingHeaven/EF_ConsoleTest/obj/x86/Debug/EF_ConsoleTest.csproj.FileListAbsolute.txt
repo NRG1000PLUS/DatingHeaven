@@ -10,3 +10,6 @@ C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EF_ConsoleTest\bin\D
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EF_ConsoleTest\obj\x86\Debug\EF_ConsoleTest.csprojResolveAssemblyReference.cache
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EF_ConsoleTest\obj\x86\Debug\EF_ConsoleTest.exe
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EF_ConsoleTest\obj\x86\Debug\EF_ConsoleTest.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EF_ConsoleTest\bin\Debug\DbExtensions.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EF_ConsoleTest\bin\Debug\DbExtensions.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EF_ConsoleTest\bin\Debug\DbExtensions.xml

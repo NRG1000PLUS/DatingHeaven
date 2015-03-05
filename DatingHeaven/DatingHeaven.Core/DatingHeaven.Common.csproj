@@ -49,6 +49,7 @@
     <Compile Include="Interfaces\ICacheManager.cs" />
     <Compile Include="Interfaces\IWorkingContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TypesHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

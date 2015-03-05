@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DatingHeaven.Entities.Member {
     [Table("Members")]
-    public class Member: BaseEntityWithId{
+    public class Member: BaseBusinessEntityWithId{
         private Profile _profile;
 
         public Member(){

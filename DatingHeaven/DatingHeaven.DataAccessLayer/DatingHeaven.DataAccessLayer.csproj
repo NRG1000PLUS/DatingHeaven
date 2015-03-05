@@ -49,15 +49,23 @@
   <ItemGroup>
     <Compile Include="DatingHeavenDbContext.cs" />
     <Compile Include="IDbContext.cs" />
-    <Compile Include="Infrastructure\EntityOperations\EntityContextProvider.cs" />
-    <Compile Include="Infrastructure\EntityOperations\IEntityContextProvider.cs" />
-    <Compile Include="Infrastructure\EntityInfoResolver.cs" />
-    <Compile Include="Infrastructure\IEntityChangesLogService.cs" />
-    <Compile Include="Infrastructure\IEntityInfoResolver.cs" />
+    <Compile Include="Infrastructure\EntityOperations\EntityOperationsProvider.cs" />
+    <Compile Include="Infrastructure\EntityOperations\EntityOperationsProviderConfig.cs" />
+    <Compile Include="Infrastructure\EntityOperations\IEntityOperationsProvider.cs" />
+    <Compile Include="Infrastructure\EntityOperations\EntityTableInfoResolver.cs" />
+    <Compile Include="Infrastructure\EntityOperations\IEntityPropertiesAnalyzer.cs" />
+    <Compile Include="Infrastructure\EntityOperations\IEntityTableInfoResolver.cs" />
+    <Compile Include="Infrastructure\EntityOperations\SqlGenerators\EntityCrudSqlGenerator.cs" />
+    <Compile Include="Infrastructure\EntityOperations\SqlGenerators\SqlGenerator.cs" />
+    <Compile Include="Infrastructure\EntityOperations\SqlGenerators\SqlGeneratorsFactory.cs" />
+    <Compile Include="Infrastructure\EntityOperations\SqlGenerators\UpdatePropertiesCrudSqlGenerator.cs" />
+    <Compile Include="Infrastructure\EntityOperations\UpdatePropertySqlQueryGenerator.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="EfRepository.cs" />
+    <Compile Include="Infrastructure\EntityOperations\SqlGenerators\SelectPropertiesCrudSqlGenerator.cs" />
     <Compile Include="Settings\EntityInfoServiceSettings.cs" />
+    <Compile Include="SqlInjectedValueFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DatingHeaven.Entities\DatingHeaven.Entities.csproj">

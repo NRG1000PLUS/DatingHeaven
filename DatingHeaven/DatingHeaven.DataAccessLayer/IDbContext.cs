@@ -13,7 +13,7 @@ namespace DatingHeaven.DataAccessLayer {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        DbSet<T> GetSet<T>() where T : BaseEntity;
+        DbSet<T> GetSet<T>() where T : BaseBusinessEntity;
 
         /// <summary>
         /// 
@@ -30,5 +30,6 @@ namespace DatingHeaven.DataAccessLayer {
         /// </summary>
         /// <returns></returns>
         int SaveChanges();
+
     }
 }

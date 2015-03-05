@@ -10,9 +10,9 @@ using DatingHeaven.DataAccessLayer.Infrastructure;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer {
-    public class EfRepository<T>: IRepository<T> where T: BaseEntity{
+    public class EfRepository<T>: IRepository<T> where T: BaseBusinessEntity{
         private readonly IDbContext          _dbContext;
-        private DbSet<T> _set; 
+        private          DbSet<T>            _set; 
    
 
         public EfRepository(IDbContext dbContext){
@@ -30,7 +30,7 @@ namespace DatingHeaven.DataAccessLayer {
                 object entityObjectResult = null;
                 bool result = _dbContext.ObjectContext.TryGetObjectByKey(entityKey,
                     out entityObjectResult);
-                if (result && !((BaseEntity)entityObjectResult).IsHidden){
+                if (result && !((BaseBusinessEntity)entityObjectResult).IsHidden){
                     // return 
                     return (T) entityObjectResult;
                 }

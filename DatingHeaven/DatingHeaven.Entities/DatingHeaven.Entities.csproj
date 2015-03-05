@@ -51,8 +51,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseBusinessEntity.cs" />
     <Compile Include="BaseEntity.cs" />
-    <Compile Include="BaseEntityWithId.cs" />
+    <Compile Include="BaseBusinessEntityWithId.cs" />
+    <Compile Include="BaseLookupEntity.cs" />
     <Compile Include="Geo\Country.cs" />
     <Compile Include="Member\Profile.cs" />
     <Compile Include="Message.cs" />

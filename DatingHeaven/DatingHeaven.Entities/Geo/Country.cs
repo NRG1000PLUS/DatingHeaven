@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DatingHeaven.Entities.Geo {
     [Table("Countries")]
-    public class Country: BaseEntityWithId {
+    public class Country: BaseLookupEntity {
 
         public Country(){
             

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DatingHeaven.Entities.Member {
     [Table("Profiles")]
-    public class Profile : BaseEntity{
+    public class Profile : BaseBusinessEntity{
         private EntityKey _entityKey;
 
         [Key]
@@ -36,18 +36,13 @@ namespace DatingHeaven.Entities.Member {
         }
 
 
-        public override EntityKey Key{
-            get{
-                if (_entityKey == null){
-                    var entityKey = new EntityKey(
-                        qualifiedEntitySetName: "DatingHeavenDbContext.Profiles",
-                                       keyName: "MemberId", 
-                                      keyValue: MemberId);
-                    _entityKey = entityKey;
-                }
-
-                return _entityKey;
-            }
+        protected override EntityKey GetEntityKey() {
+            
+            var entityKey = new EntityKey(
+                    qualifiedEntitySetName: "DatingHeavenDbContext.Profiles",
+                                   keyName: "MemberId",
+                                  keyValue: MemberId);
+            return entityKey;
         }
     }
 }

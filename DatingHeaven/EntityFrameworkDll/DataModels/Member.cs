@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 
 namespace EntityFrameworkDll.DataModels {
-    public class Member : IdentityUser{
+    public class Member{
         private List<Photo> _photos; 
 
         [Key]

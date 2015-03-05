@@ -7,7 +7,7 @@ using System.Text;
 
 namespace DatingHeaven.Entities {
     [Table("Messages")]
-    public class Message: BaseEntityWithId {
+    public class Message: BaseBusinessEntityWithId {
 
         public Message(){
 

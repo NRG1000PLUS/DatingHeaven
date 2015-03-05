@@ -38,8 +38,8 @@ namespace DatingHeaven.BusinessLogic.Services {
         }
 
         public void SetMessageAsRead(int userId, int messageId) {
-            if (EntityContext != null){
-                  EntityContext.SetPropery<Message>(messageId, "IsRead", true);
+            if (EntityOperations != null){
+                  EntityOperations.SetProperty<Message>(messageId, "IsRead", true);
             }
         }
     }

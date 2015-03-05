@@ -1,66 +1,54 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Core;
 using System.Linq;
 using System.Text;
 
-
 namespace DatingHeaven.Entities {
-    public abstract class BaseEntity {
+    public abstract class BaseEntity{
+        private EntityKey _entityKey;
 
-        protected BaseEntity(){
-            // each entity is hidden from the start
-            IsHidden = false;
+
+        /// <summary>
+        /// Get the key for this entity.
+        /// Entity key could be of type 'int' for BaseEntity
+        /// </summary>
+        [NotMapped]
+        public EntityKey Key{
+            get{
+                return _entityKey ?? (_entityKey = GetEntityKey());
+            }
         }
 
         /// <summary>
-        /// Date when this entity was created
+        /// 
         /// </summary>
-        [Required]
-        public DateTime CreatedOn{
-            get; 
-            set; 
-        }
+        /// <returns></returns>
+        protected abstract EntityKey GetEntityKey();
 
-        [Required]
-        public DateTime ModifiedOn{
-            get; 
-            set; 
-        }
-
-        /// <summary>
-        /// Is this entity hidden from the user?
-        /// </summary>
-        [Required]
-        public bool IsHidden {
-            get; 
-            set; 
-        }
-
-
-        public abstract EntityKey Key {get;}
-
-
-        public override bool Equals(object obj){
-            if (obj == null){
+        public override bool Equals(object anotherObject){
+            if (anotherObject == null){
+                // FALSE since an object cannot equal to NULL
                 return false;
             }
 
-            if (ReferenceEquals(this, obj)){
+            if (ReferenceEquals(this, anotherObject)){
                 // the same reference, it's TRUE
                 return true;
             }
 
-            if (!(obj is BaseEntity) || GetType() != obj.GetType()){
+            if (!(anotherObject is BaseEntity) || (GetType() != anotherObject.GetType())){
                 // types do not match, then FALSE
                 // typeof(Message) != typeof(LogRecord)
                 return false;
             }
 
-            var anotherObj = obj as BaseEntity;
-            return Key.Equals(anotherObj.Key);
+            // cast object to BaseEntity
+            var baseEntity = (BaseEntity)anotherObject;
+
+            // check keys
+            return Key.Equals(baseEntity.Key);
         }
     }
 }
