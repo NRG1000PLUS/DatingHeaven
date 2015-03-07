@@ -39,5 +39,11 @@ namespace DatingHeaven.Entities {
             set; 
         }
 
+        [Timestamp]
+        public byte[] RowVersion{
+            get; 
+            set; 
+        }
+
     }
 }

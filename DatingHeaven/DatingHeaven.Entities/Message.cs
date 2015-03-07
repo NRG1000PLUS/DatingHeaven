@@ -45,5 +45,11 @@ namespace DatingHeaven.Entities {
             get; 
             set; 
         }
+
+        [Required]
+        public Guid GuidValue{
+            get; 
+            set; 
+        }
     }
 }

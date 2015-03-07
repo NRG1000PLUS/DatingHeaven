@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Objects.DataClasses;
 using System.Data.Entity.Infrastructure;
@@ -11,13 +12,13 @@ using DatingHeaven.Entities;
 using DatingHeaven.Entities.Member;
 
 namespace DatingHeaven.DataAccessLayer {
-    public class DatingHeavenDbContext: DbContext, IDbContext{
+    public class DatingHeavenDbContext : DbContext, IDbContext{
         private DbSet<Message> _messages;
         private DbSet<Member> _members;
 
-        public DatingHeavenDbContext() {
+        public DatingHeavenDbContext(){
 
-           Configuration.LazyLoadingEnabled = false;
+            Configuration.LazyLoadingEnabled = false;
         }
 
         public DbSet<Message> Messages{
@@ -30,7 +31,7 @@ namespace DatingHeaven.DataAccessLayer {
             get{
                 return _members ?? (_members = base.Set<Member>());
             }
-        } 
+        }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder){
             modelBuilder.Entity<Message>().Map(m =>{
@@ -53,7 +54,7 @@ namespace DatingHeaven.DataAccessLayer {
             });
         }
 
-        public DbSet<T> GetSet<T>() where T : BaseBusinessEntity{
+        public DbSet<T> GetSet<T>() where T : BaseEntity{
             return base.Set<T>();
         }
 
@@ -61,10 +62,38 @@ namespace DatingHeaven.DataAccessLayer {
         /// <summary>
         /// Get ObjectContext from the current DbContext
         /// </summary>
-        public ObjectContext ObjectContext {
+        public ObjectContext ObjectContext{
             get{
                 return ((IObjectContextAdapter) this).ObjectContext;
             }
         }
-    }             
+
+
+
+
+        public void UpdateEntityInContext<T>(object entityKey, 
+                                             string property, 
+                                             object value) where T : BaseBusinessEntity {
+            var entity = GetSet<T>().Local.FirstOrDefault(ent =>{
+                if (entityKey is EntityKey){
+                    // in case we have the composite key
+                    return ent.Key.Equals((EntityKey) entityKey);
+                }
+
+                var key = new EntityKey();
+                var keyMember = new EntityKeyMember("Id", entityKey);
+                key.EntityKeyValues = new EntityKeyMember[]{keyMember};
+
+                return ent.Key.Equals(key);
+            });
+
+            if (entity != null){
+                    // reload the entity if we need quick fixes
+                Entry(entity).Property(property).CurrentValue = value;
+                Entry(entity).Entity.ModifiedOn = DateTime.Now;
+            }
+        }
+
+
+    }
 }

@@ -49,12 +49,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
                 // we need all the members of EntityType
                 sb.Append(" * ");
             } else{
-                if (!SelectedProperties.Contains("Id")){
-                    
-
-                    SelectedProperties.Add("Id");
-                }
-
+           
 
                 SelectedProperties.ForEach(prop =>{
                     sb.AppendFormat("[{0}]", prop);

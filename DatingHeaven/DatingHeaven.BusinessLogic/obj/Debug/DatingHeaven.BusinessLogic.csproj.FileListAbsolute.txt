@@ -9,3 +9,12 @@ C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.Busines
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\DatingHeaven.Entities.pdb
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\EntityFramework.xml
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\obj\Debug\DatingHeaven.BusinessLogic.csprojResolveAssemblyReference.cache
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\AutoMapper.Net4.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\AutoMapper.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\Ninject.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\AutoMapper.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\AutoMapper.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\AutoMapper.Net4.pdb
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.BusinessLogic\bin\Debug\Ninject.xml

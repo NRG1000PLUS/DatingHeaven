@@ -54,7 +54,9 @@
   <ItemGroup>
     <Compile Include="EfTests.cs" />
     <Compile Include="EntityContextTests.cs" />
+    <Compile Include="LinqExpressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RandomDataGenerator.cs" />
     <Compile Include="SqlGeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>

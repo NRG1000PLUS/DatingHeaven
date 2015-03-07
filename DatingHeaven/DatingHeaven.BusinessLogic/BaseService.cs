@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DatingHeaven.DataAccessLayer;
 using DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations;
 
 namespace DatingHeaven.BusinessLogic {
     public abstract class BaseService{
-        private readonly IEntityOperationsProvider _entityContextProvider;
+        private readonly IEntityContextProvider _entityContextProvider;
 
         protected BaseService(){
             // empty constructor
         }
 
-        protected BaseService(IEntityOperationsProvider entityContextProvider){
+        protected BaseService(IEntityContextProvider entityContextProvider){
             _entityContextProvider = entityContextProvider;
             
         }
 
-        protected IEntityOperationsProvider EntityOperations{
+        protected IEntityContextProvider EntityOperations{
             get{
                 return _entityContextProvider;
             }

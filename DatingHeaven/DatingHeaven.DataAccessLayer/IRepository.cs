@@ -5,30 +5,31 @@ using System.Text;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer {
-    public interface IRepository<T> where T: BaseBusinessEntity{
+    public interface IRepository<T> where T: BaseEntity{
         /// <summary>
         /// Get entity by Id
         /// </summary>
-        T GetById(object id);
+        T GetById(object entityKey);
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        T GetByIdWithHidden(object id);
+        T GetByIdWithHidden(object entityKey);
 
         /// <summary>
         /// Get all entities
         /// </summary>
         IList<T> GetAll();
 
-
+        /// <summary>
+        /// Get entities filtered by the WHERE predicate
+        /// </summary>
         IList<T> GetWhere(Func<T, bool> predicate);
 
-
+        /// <summary>
+        /// 
+        /// </summary>
         IList<T> GetWhereWithHidden(Func<T, bool> predicate);
-
 
         /// <summary>
         /// Admin method to get all entities, including the HIDDEN/DELETED ones

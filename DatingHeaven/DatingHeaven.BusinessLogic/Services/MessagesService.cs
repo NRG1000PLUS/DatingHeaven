@@ -7,11 +7,11 @@ using DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.BusinessLogic.Services {
-    class MessagesService : BaseService, IMessagesService{
+    class MessagesService : BaseService, IMessageService{
         private readonly IRepository<Message> _messagesRepo;
 
         public MessagesService(IRepository<Message> messagesRepository,
-                               IEntityOperationsProvider entityContextProvider): 
+                               IEntityContextProvider entityContextProvider): 
             base(entityContextProvider){
                    _messagesRepo = messagesRepository;
         }  
@@ -39,7 +39,7 @@ namespace DatingHeaven.BusinessLogic.Services {
 
         public void SetMessageAsRead(int userId, int messageId) {
             if (EntityOperations != null){
-                  EntityOperations.SetProperty<Message>(messageId, "IsRead", true);
+                  EntityOperations.SetPropertyValue<Message>(messageId, "IsRead", true);
             }
         }
     }

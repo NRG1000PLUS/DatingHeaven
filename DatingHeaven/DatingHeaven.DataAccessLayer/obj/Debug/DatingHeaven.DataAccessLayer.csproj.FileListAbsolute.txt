@@ -10,3 +10,5 @@ C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAcc
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\EntityFramework.xml
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\Ninject.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\DatingHeaven.DataAccessLayer\bin\Debug\Ninject.xml

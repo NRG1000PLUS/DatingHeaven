@@ -20,11 +20,11 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
     public class EntityContextProvider : IEntityContextProvider{
         private readonly IEntityInfoResolver                     _entityInfoResolver;
         private readonly IDbContext                              _dbContext;
-        private readonly IEntitySqlGeneratorsFactory              _sqlGeneratorsFactory;
+        private readonly IEntitySqlGeneratorsFactory             _sqlGeneratorsFactory;
 
         public EntityContextProvider(              IEntityInfoResolver   entityInfoResolver,                       
                                                             IDbContext   dbContext,
-                                            IEntitySqlGeneratorsFactory   sqlGeneratorsFactory){
+                                            IEntitySqlGeneratorsFactory  sqlGeneratorsFactory){
             _entityInfoResolver = entityInfoResolver;
             _dbContext = dbContext;   // dbContext //
             _sqlGeneratorsFactory = sqlGeneratorsFactory;
@@ -71,17 +71,6 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
         }
 
 
-      
-
-     
-        public T SearchByProperty<T>(Func<T, object> propertySelector, object propertyValue) where T : BaseBusinessEntity{
-            var dbSet = _dbContext.GetSet<T>();
-             // dbSet.AsNoTracking().
-            return dbSet.FirstOrDefault(ent => propertySelector(ent).Equals(propertyValue));
-        }
-
-        
-
         public bool SetPropertyValue<T>(object entityKey, string property, object value) where T: BaseBusinessEntity{
             EnsureEntityKeyIsValid(entityKey);
 
@@ -95,7 +84,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
                         );
 
             if (result){
-                  // update the entity in DbContext
+                  // update the entity in DbContext, reload the entity
                  _dbContext.UpdateEntityInContext<T>(entityKey, property, value);
             }
 
@@ -106,7 +95,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
         public object GetPropertyValue<T>(object entityKey, Expression<Func<T, object>> propertySelector) where T: BaseEntity{
             EnsureEntityKeyIsValid(entityKey);
             // ensure the entity property is selected
-            EnsureIsPropertyExpression(propertySelector);
+            EnsurePropertyIsExpression(propertySelector);
 
             // get the property name
             var propertyName = GetPropertyNameFromExpression(propertySelector);
@@ -115,29 +104,38 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
 
 
         public bool SetPropertyValue<T>(object entityKey, Expression<Func<T, object>> propertySelector, object value) where T : BaseBusinessEntity {
-            EnsureIsPropertyExpression(propertySelector);
+            EnsurePropertyIsExpression(propertySelector);
             var propertyName = GetPropertyNameFromExpression(propertySelector);
 
             return SetPropertyValue<T>(entityKey, propertyName, value);
         }
 
-
-        public T GetEntityWithProperties<T>(object entityKey, IEnumerable<string> selectProperties) where T : BaseEntity {
-            throw new NotImplementedException();
-        }
-
-
         private string GetPropertyNameFromExpression<T>(Expression<Func<T, object>> exp){
-            var memberExpression = (MemberExpression) exp.Body;
-            return memberExpression.Member.Name;
+            if (exp.Body is MemberExpression){
+                return ((MemberExpression) exp.Body).Member.Name;
+            } else if (exp.Body is UnaryExpression){
+                var prop = ((UnaryExpression) exp.Body).Operand.ToString();
+                if (prop.IndexOf('.') > 0){
+                      prop = prop.Substring(prop.IndexOf('.') + 1);
+                }
+                return prop;
+            } 
+
+            throw new ArgumentException("Could not cast");
         }
 
-        private void EnsureIsPropertyExpression<T>(Expression<Func<T, object>> expression){
-            var memberExp = expression.Body as MemberExpression;
-            if ((memberExp == null) || (memberExp.Member.MemberType != MemberTypes.Property)) {
+        private void EnsurePropertyIsExpression<T>(Expression<Func<T, object>> expression){
+            var expBody = expression.Body;
+            if (!(expBody is MemberExpression) && !(expBody is UnaryExpression)) {
                 // No property selected! We need the entity PROPERTY only
                 throw new InvalidOperationException("You did not specify a property!");
-            }  
+            }
+
+            if (expBody is UnaryExpression){
+                if (expBody.NodeType != ExpressionType.Convert){
+                    throw new InvalidOperationException("Must be only <Convert> type!");
+                }
+            } 
         }
 
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators {
     public abstract class SqlGenerator{
-        private SqlGeneratorConfig _config;
+        private readonly SqlGeneratorConfig _config;
 
 
         protected SqlGenerator(SqlGeneratorConfig config){
@@ -21,11 +21,6 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
                 return _config;
             }
         }
-
-
-
-       
-        
 
         public abstract string GenerateSql();
     }

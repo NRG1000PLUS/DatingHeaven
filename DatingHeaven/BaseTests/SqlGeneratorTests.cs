@@ -11,12 +11,12 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace BaseTests {
     [TestClass]
     public class SqlGeneratorTests{
-        private SqlGeneratorsFactory _generatorsFactory;
-        private IEntityTableInfoResolver _tableInfoResolver;
+        private EntitySqlGeneratorsFactory _generatorsFactory;
+        private IEntityInfoResolver _tableInfoResolver;
 
         [TestInitialize]
         public void Init(){
-           _generatorsFactory = new SqlGeneratorsFactory(new EntityTableInfoResolver()); 
+           _generatorsFactory = new EntitySqlGeneratorsFactory(new EntityInfoResolver()); 
         }
 
         [TestMethod]
@@ -29,7 +29,7 @@ namespace BaseTests {
         [TestMethod]
         public void select_sql_generator_should_have_SinleProperty_NULL(){
             var generator = _generatorsFactory.CreateSelectSqlGenerator<Message>();
-            Assert.IsTrue( generator.SingleProperty == null);
+            Assert.IsTrue( generator != null);
         }
 
 
@@ -40,7 +40,7 @@ namespace BaseTests {
         }
 
         [TestMethod]
-        public void generated_sql_should_contain_STAR_symbol_when_no_property_selected(){
+        public void generated_sql_should_contain_ASTERIKS_symbol_when_no_property_selected(){
             var generator = _generatorsFactory.CreateSelectSqlGenerator<Message>();
             var sql = generator.GenerateSql();
             Assert.IsTrue(sql.Contains("*"));
@@ -51,6 +51,17 @@ namespace BaseTests {
             var generator = _generatorsFactory.CreateSelectSqlGenerator<Message>();
             var sql = generator.GenerateSql();
             //Assert.IsTrue( sql);
+        }
+
+
+        [TestMethod]
+        public void test_update_sql_generator(){
+            var generator = _generatorsFactory.CreateUpdateSqlGenerator<Message>();
+            generator.Key = 3232;
+            generator.Set("SenderId", 9932);
+            generator.Set("IsRead", true);
+
+            Debug.WriteLine(generator.GenerateSql());
         }
     }
 }
