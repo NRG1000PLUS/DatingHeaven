@@ -25,12 +25,20 @@ namespace DatingHeaven.DataAccessLayer {
                 return GuidToString((Guid) value);
             }
 
+            if (value is bool){
+                return BoolToString((bool) value);
+            }
+
             if (value is ValueType){
                 // uint, ulong, long 
                 return value.ToString();
             }
 
             return null;
+        }
+
+        private static string BoolToString(bool p){
+            return (p ? 1 : 0).ToString();
         }
 
         public static string IntToString(int intValue){

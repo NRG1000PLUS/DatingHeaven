@@ -6,20 +6,22 @@ using System.Text;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators {
-    public class SelectPropertiesCrudSqlGenerator<TEntity>: EntityCrudSqlGenerator<TEntity> 
-               where TEntity : BaseBusinessEntity{
+    public class SelectEntitySqlGenerator<TEntity>: EntitySqlGenerator<TEntity> 
+               where TEntity : BaseEntity{
 
         private List<string> _entityProperties; 
 
-        public SelectPropertiesCrudSqlGenerator(IEntityTableInfoResolver tableResolver) : 
-            base(tableResolver){
+        public SelectEntitySqlGenerator(SqlGeneratorConfig config, 
+                                        IEntityInfoResolver tableResolver) : 
+            base(config, tableResolver){
             // empty constructor
         }
 
-        public SelectPropertiesCrudSqlGenerator (string property,
-                                             object key, 
-                                             IEntityTableInfoResolver tableResolver): 
-            base(tableResolver){
+        public SelectEntitySqlGenerator (string property,
+                                         object key, 
+                                         SqlGeneratorConfig config,
+                                         IEntityInfoResolver tableResolver): 
+            base(config, tableResolver){
                SelectedProperties.Add(property);
                Key = key;
         }
@@ -33,39 +35,27 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public string SingleProperty{
-            get; 
-            set; 
-        }
-
-
-
-
-
         protected override void GenerateSqlClauseInternal(StringBuilder sb){
             // append the 'SELECT' clause
             sb.Append("SELECT ");
 
-            var noPropertiesSelected = (_entityProperties == null);
+            var noPropertiesSelected = (_entityProperties == null) || 
+                                       (SelectedProperties.Count == 0);
 
-            if (!noPropertiesSelected){
-                // ensure that we have no properties to select
-                noPropertiesSelected = (SelectedProperties.Count == 0);
-            } 
 
 
 
             if (noPropertiesSelected){
-                // select ALL the columns in the table
-                if (string.IsNullOrEmpty(SingleProperty)){
-                    sb.Append(" * ");
-                } else{
-                    sb.AppendFormat("[{0}]", SingleProperty);
-                }
+                // we need all the members of EntityType
+                sb.Append(" * ");
             } else{
+                if (!SelectedProperties.Contains("Id")){
+                    
+
+                    SelectedProperties.Add("Id");
+                }
+
+
                 SelectedProperties.ForEach(prop =>{
                     sb.AppendFormat("[{0}]", prop);
 

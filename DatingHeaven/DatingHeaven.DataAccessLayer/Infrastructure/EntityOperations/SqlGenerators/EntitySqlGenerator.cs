@@ -7,17 +7,18 @@ using System.Text;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators {
-    public abstract class EntityCrudSqlGenerator<T> : SqlGenerator where T: BaseBusinessEntity{
-        protected IEntityTableInfoResolver TableInfoResolver;
+    public abstract class EntitySqlGenerator<T> : SqlGenerator where T: BaseEntity{
+        protected IEntityInfoResolver EntityInfoResolver;
         private readonly Type _typeBaseBusinessEntityWithId;
 
-        protected EntityCrudSqlGenerator(IEntityTableInfoResolver tableResolver){
+        protected EntitySqlGenerator(SqlGeneratorConfig config,
+                                     IEntityInfoResolver tableResolver) : base(config){
             if (tableResolver == null){
                 // we cannot work futher without a TableNameResolver
                 throw new NullReferenceException("<TableNameResolver> is not defined");
             }
 
-            TableInfoResolver = tableResolver;
+            EntityInfoResolver = tableResolver;
             
             // save the type of [BaseBusinessEntityWithId] to the local variable
             _typeBaseBusinessEntityWithId = typeof (BaseBusinessEntityWithId);
@@ -61,7 +62,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
                sb.Append("FROM ");
 
                // sql: FROM [{TableName}]
-               sb.AppendFormat("[{0}]", TableInfoResolver.GetTableName<T>());
+               sb.AppendFormat("[{0}]", EntityInfoResolver.GetTableName<T>());
 
                if (Key != null){
                    // add some space after the [{TableName}] 
@@ -74,20 +75,22 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
             // sql: WHERE 
             sb.Append("WHERE ");
 
-            if (IsBaseEntityWithId() && (Key is int)){
+            if (Key is int){
                 // single key
-                int entityId = (int) Key;
-                sb.AppendFormat("[Id] = {0}", (ParameterPlaceholdersEnabled ? "@p0" : entityId.ToString()));
+                if (IsBaseEntityWithId()){
+                    // The current entity type is {BaseEntityWithId}
+                    sb.AppendFormat("[Id] = {0}", Config.ParameterSymbol + "0");
+                } else{
+                    var keyPropertyName = EntityInfoResolver.GetEntityKeyProperty<T>();
+                    sb.AppendFormat("[{0}] = {1}", keyPropertyName, Config.ParameterSymbol + "0");
+                }
             } else{
                 // composite key
                 var keyMembers = ((EntityKey) Key).EntityKeyValues.ToList();
                 keyMembers.ForEach(key =>{
                     sb.AppendFormat("([{0}] = {1})",
-                                    key.Key, 
-                     !ParameterPlaceholdersEnabled ? 
-                               SqlInjectedValueFormatter.ObjectToString(key.Value) :
-                               string.Format("@param{0}", keyMembers.IndexOf(key))
-                     );
+                                    key.Key,
+                                    Config.ParameterSymbol + keyMembers.IndexOf(key));
                     if (keyMembers.IndexOf(key) < (keyMembers.Count - 1)){
                         // add some space and a AND operator
                         sb.Append(" AND ");
