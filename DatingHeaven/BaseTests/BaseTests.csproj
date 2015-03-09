@@ -57,6 +57,7 @@
     <Compile Include="LinqExpressions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomDataGenerator.cs" />
+    <Compile Include="RepositoryTests.cs" />
     <Compile Include="SqlGeneratorTests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Core;
 using System.Linq;
@@ -20,6 +21,8 @@ namespace DatingHeaven.Entities {
                 return _entityKey ?? (_entityKey = GetEntityKey());
             }
         }
+
+
 
         /// <summary>
         /// 

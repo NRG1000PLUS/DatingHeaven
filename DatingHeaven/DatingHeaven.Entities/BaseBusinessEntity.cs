@@ -15,6 +15,13 @@ namespace DatingHeaven.Entities {
             IsHidden = false;
         }
 
+
+        [Required]
+        public bool IsHidden{
+            get; 
+            set; 
+        }
+
         /// <summary>
         /// Date when this entity was created
         /// </summary>
@@ -30,14 +37,6 @@ namespace DatingHeaven.Entities {
             set; 
         }
 
-        /// <summary>
-        /// Is this entity hidden from the user?
-        /// </summary>
-        [Required]
-        public bool IsHidden {
-            get; 
-            set; 
-        }
 
         [Timestamp]
         public byte[] RowVersion{

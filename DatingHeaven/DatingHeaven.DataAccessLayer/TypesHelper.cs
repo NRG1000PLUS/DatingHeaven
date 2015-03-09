@@ -10,11 +10,13 @@ namespace DatingHeaven.DataAccessLayer {
         private readonly static Type BaseEntityType;
         private readonly static Type BaseBusinessEntityType;
         private readonly static Type BaseBusinessEntityWithIdType;
+        private static readonly Type BaseLookupEntityType;
 
         static TypesHelper(){
             BaseEntityType = typeof (BaseEntity);
             BaseBusinessEntityType = typeof (BaseBusinessEntity);
             BaseBusinessEntityWithIdType = typeof (BaseBusinessEntityWithId);
+            BaseLookupEntityType = typeof (BaseLookupEntity);
         }
 
 
@@ -39,8 +41,16 @@ namespace DatingHeaven.DataAccessLayer {
             return BaseBusinessEntityWithIdType.IsAssignableFrom(type);
         }
 
-        public static bool IsBaseBusinessEntitWithId<T>() where T : class{
+        public static bool IsBaseBusinessEntityWithId<T>() where T : class{
             return IsBaseBusinessEntityWithId(typeof (T));
+        }
+
+        public static bool IsBaseLookupEntity(Type type){
+            return BaseLookupEntityType.IsAssignableFrom(type);
+        }
+
+        public static bool IsBaseLookupEntity<T>() where T : class{
+            return IsBaseLookupEntity(typeof (T));
         }
     }
 }

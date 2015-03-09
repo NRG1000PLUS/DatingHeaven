@@ -8,20 +8,19 @@ namespace BaseTests {
 
         private const int MINIMAL_INT = 20000;
         private const int MAXIMAL_INT = 90000;
+        private Random r = new Random();
 
         public string GenerateRandomString(int size){
-            var r = new Random();
             var data = new StringBuilder();
 
             for (var idx = 0; idx < size; idx++){
-                data.Append((char) r.Next(2000,3000));
+                data.Append((char) r.Next(97,122));
             }
 
             return data.ToString();
         }
 
         public int RandomInt(){
-            var r = new Random();
             return r.Next(MINIMAL_INT, MAXIMAL_INT);
         }
     }

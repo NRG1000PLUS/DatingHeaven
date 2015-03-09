@@ -16,6 +16,8 @@ namespace DatingHeaven.DataAccessLayer {
         private DbSet<Message> _messages;
         private DbSet<Member> _members;
 
+        
+
         public DatingHeavenDbContext(){
 
             Configuration.LazyLoadingEnabled = false;
@@ -67,6 +69,13 @@ namespace DatingHeaven.DataAccessLayer {
                 return ((IObjectContextAdapter) this).ObjectContext;
             }
         }
+
+
+        public AdapterDbSet<TEntity, TAdapter> AdapterSet<TEntity, TAdapter>() 
+                   where TEntity: BaseEntity where TAdapter: class, IEntityAdapter, new(){
+            var dbSet = base.Set<TEntity>();
+            return new AdapterDbSet<TEntity, TAdapter>(dbSet);
+        } 
 
 
 

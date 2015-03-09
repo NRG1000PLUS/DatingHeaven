@@ -11,6 +11,7 @@ namespace DatingHeaven.DataAccessLayer {
         /// </summary>
         T GetById(object entityKey);
 
+        /*
         /// <summary>
         /// 
         /// </summary>
@@ -51,5 +52,6 @@ namespace DatingHeaven.DataAccessLayer {
         /// Insert entity to the table 
         /// </summary>
         void Insert(T entity);
+         */
     }
 }

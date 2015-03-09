@@ -16,6 +16,7 @@ namespace DatingHeaven.Entities {
 
 
         [Key]
+        [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id{
             get; 
