@@ -9,6 +9,8 @@ using System.Text;
 namespace DatingHeaven.Entities {
     public abstract class BaseBusinessEntityWithId : BaseBusinessEntity{
 
+        private int _entityId;
+
         protected BaseBusinessEntityWithId(){
             // ID is always null when being created
             Id = 0;
@@ -18,22 +20,15 @@ namespace DatingHeaven.Entities {
         [Key]
         [Required]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Column(Order = 0)]
         public int Id{
-            get; 
-            set; 
-        }
-
-
-
-        protected override EntityKey GetEntityKey() {
-            var entityKey = new EntityKey();
-            var keyIdMember = new EntityKeyMember {
-                Key = "Id",
-                Value = Id
-            };
-
-            entityKey.EntityKeyValues = new[] { keyIdMember /* Only one key*/};
-            return entityKey;
+            get{
+                return _entityId;
+            }
+            set{
+                _entityId = value;
+               //OnEntityKeySet(_entityId);
+            }
         }
     }
 }

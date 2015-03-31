@@ -1,17 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Security.Cryptography.Xml;
 
 namespace DatingHeaven.Entities.Member {
     [Table("Members")]
     public class Member: BaseBusinessEntityWithId{
-        private Profile _profile;
+        private Profile.Profile _profile;
+        private List<Message> _messages; 
 
         public Member(){
 
-            // gender is not defined at start
-            this.Gender = '\0';
+          
         }
 
         [Required]
@@ -23,6 +26,7 @@ namespace DatingHeaven.Entities.Member {
 
 
         [Required]
+        [MaxLength(100)]
         public string FirstName{
             get; 
             set; 
@@ -30,13 +34,13 @@ namespace DatingHeaven.Entities.Member {
 
 
         [Required]
+        [MaxLength(100)]
         public string LastName{
             get; 
             set;
         }
 
         [Required]
-        [DefaultValue(null)]
         public char Gender{
             get; 
             set; 
@@ -67,24 +71,28 @@ namespace DatingHeaven.Entities.Member {
         }
 
 
-
-        [Required]
-        public DateTime LastVisit{
+        public DateTime? LastVisit{
             get; 
             set; 
         }
 
 
-        public Profile Profile{
+        public virtual Profile.Profile Profile{
             get{
-                return _profile ?? (_profile = new Profile());
+                return _profile ?? (_profile = new Profile.Profile());
             }
             set{
                 _profile = value;
             }
         }
 
-
-
+        public IList<Message> Messages{
+            get{
+                return _messages ?? (_messages = new List<Message>());
+            }
+            set{
+                _messages = value.ToList();
+            }
+        } 
     }
 }

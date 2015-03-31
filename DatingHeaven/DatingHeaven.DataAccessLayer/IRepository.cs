@@ -1,47 +1,66 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer {
     public interface IRepository<T> where T: BaseEntity{
         /// <summary>
-        /// Get entity by Id
+        /// Get entity by keys
         /// </summary>
         T GetById(object entityKey);
 
-        /*
         /// <summary>
-        /// 
-        /// </summary>
-        T GetByIdWithHidden(object entityKey);
-
-        /// <summary>
-        /// Get all entities
+        /// Get all entities in the table
         /// </summary>
         IList<T> GetAll();
 
         /// <summary>
-        /// Get entities filtered by the WHERE predicate
+        /// Get total amount of entities stored in the table
         /// </summary>
-        IList<T> GetWhere(Func<T, bool> predicate);
+        int GetCount();
+
+        /// <summary>
+        /// Get count of entities that fit the current filter
+        /// </summary>
+        int GetCountWhere(Expression<Func<T, bool>> propertySelector);
+
+        /// <summary>
+        /// Get entities using a filter
+        /// </summary>
+        IList<T> GetWhere(Expression<Func<T, object>> propertySelector, object propertyValue);
 
         /// <summary>
         /// 
         /// </summary>
-        IList<T> GetWhereWithHidden(Func<T, bool> predicate);
+        IList<T> GetWhere(Expression<Func<T, object>> propertySelector, SqlOperator sqlOperator, object propertyValue); 
 
         /// <summary>
-        /// Admin method to get all entities, including the HIDDEN/DELETED ones
+        /// Get entities using a filter with EQUALS operator
         /// </summary>
-        /// <returns></returns>
-        IList<T> GetAllWithHidden(); 
+        IList<T> GetWhere(string propertyName, object propertyValue);
 
         /// <summary>
-        /// Mark the current entity as DELETED
+        /// Fluent syntax for filtering
+        ///  _repo.Where().Property(m => m.SenderId).Equals(32).And().
+        ///                Property(m => m.IsRead).Equals(false).And().
+        ///                Property(m => m.ReadOn).IsNull().Select()
+        /// 
+        ///  _repo.Where().Property(m => m.Login).Equals("KinkyLover007").And().
+        ///                Property(m => m.IsTrial).Equals(false).Delete();
+        /// 
+        ///  _repo.Where().Property( m => m.Login).Equals("AwesomeBoy").Update( m => m.FirstName, "James");
         /// </summary>
-        void Hide(object id);
+        FluentSyntaxForWhereConditions<T> Where();
+
+        /// <summary>
+        /// Get entities using a filter
+        /// </summary>
+        IList<T> GetWhere(string propertyName, SqlOperator sqlOperator, object propertyValue); 
 
         /// <summary>
         /// Update the current entity
@@ -49,9 +68,18 @@ namespace DatingHeaven.DataAccessLayer {
         void Refresh(T entity);
 
         /// <summary>
-        /// Insert entity to the table 
+        /// Insert a new entity to the table 
         /// </summary>
         void Insert(T entity);
-         */
+
+        /// <summary>
+        /// Delete entity
+        /// </summary>
+        void Delete(T entity);
+
+        /// <summary>
+        /// Delete entity by its key
+        /// </summary>
+        void DeleteById(object entityKey);
     }
 }

@@ -1,46 +1,47 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using DatingHeaven.Entities;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using DatingHeaven.Entities.Member;
+using NUnit.Framework;
 
 namespace BaseTests {
-    [TestClass]
-    public class LinqExpressions {
-        [TestMethod]
-        public void build_simple_const_expression(){
-            Expression exp = Expression.Constant(123);
 
-            BinaryExpression binExp = Expression.Add(
-                  Expression.Constant(32),
-                  Expression.Constant(90)
-                );
-            var lambda = Expression.Lambda(binExp, null);
 
-            var delegateInstance = lambda.Compile();
-            var result = delegateInstance.DynamicInvoke(null);
-            Debug.WriteLine(result);
+    [TestFixture]
+    public class LinqExpressionsTests{
+
+
+        [Test]
+        public void expression_NodeType_should_be_MemberAccess_when_entity_string_property_selected(){
+            Expression<Func<Member, object>> exp = m => m.Email;
+            Assert.True(exp.Body.NodeType == ExpressionType.MemberAccess); 
         }
 
-
-        [TestMethod]
-        public void two(){
-            Expression<Func<Message, object>> propertySelectorExpression = message => message.Header;
-            Debug.WriteLine(propertySelectorExpression);
-           // ConstantExpression c = Expression.Constant(3);
-
+        [Test]
+        public void expression_NodeType_should_be_Convert_when_entity_int_property_selected(){
+            Expression<Func<Member, object>> exp = m => m.Id;
+            Assert.True(exp.Body.NodeType == ExpressionType.Convert);
         }
 
+        [Test]
+        public void expression_NodeType_should_be_Convert_when_entity_char_property_selected(){
+            Expression<Func<Member, object>> exp = member => member.Gender;
+            Assert.True(exp.Body.NodeType == ExpressionType.Convert);
+        }
 
-        [TestMethod]
-        public void test_property_accessor_expressions(){
-            var message = new Message();
-            Expression<Func<Message, object>> propertySelector = m => m.IsRead;
-            Debug.WriteLine(propertySelector.Body.GetType());
+        [Test]
+        public void expression_type_should_be_MemberExpression_when_entity_string_property_selected(){
+            Expression<Func<Member, object>> exp = member => member.Email;
+            Assert.True(exp.Body is MemberExpression);
+        }
+
+        [Test]
+        public void expression_type_should_be_UnaryExpression_when_entity_int_property_selected(){
+            Expression<Func<Member, object>> exp = member => member.Id;
+            Assert.True(exp.Body is UnaryExpression);
         }
     }
 }

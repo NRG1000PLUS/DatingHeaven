@@ -11,17 +11,6 @@ namespace DatingHeaven.Entities.Geo {
     [Table("Countries")]
     public class Country: BaseLookupEntity {
 
-        public Country(){
-            
-        }
-
-        [Required]
-        [MaxLength(200)]
-        public string Name{
-            get; 
-            set;
-        }
-
         [Required]
         [MaxLength(10)]
         public string Code{

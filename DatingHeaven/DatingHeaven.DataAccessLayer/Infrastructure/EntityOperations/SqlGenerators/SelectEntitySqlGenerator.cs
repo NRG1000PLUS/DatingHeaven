@@ -6,55 +6,48 @@ using System.Text;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators {
-    public class SelectEntitySqlGenerator<TEntity>: EntitySqlGenerator<TEntity> 
-               where TEntity : BaseEntity{
+    public class SelectEntitySqlGenerator: EntitySqlGenerator {
 
         private List<string> _entityProperties; 
 
-        public SelectEntitySqlGenerator(SqlGeneratorConfig config, 
-                                        IEntityInfoResolver tableResolver) : 
-            base(config, tableResolver){
+        public SelectEntitySqlGenerator(SqlGeneratorConfig config) : 
+            base(config){
             // empty constructor
-        }
-
-        public SelectEntitySqlGenerator (string property,
-                                         object key, 
-                                         SqlGeneratorConfig config,
-                                         IEntityInfoResolver tableResolver): 
-            base(config, tableResolver){
-               SelectedProperties.Add(property);
-               Key = key;
         }
 
         /// <summary>
         /// List of properties to select in the 'SELECT' clause
         /// </summary>
-        public List<string> SelectedProperties{
+        public List<string> SelectedColumns{
             get{
                 return _entityProperties ?? (_entityProperties = new List<string>());
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool SelectAllColumns{
+            get; 
+            set; 
+        }
+
+
+
         protected override void GenerateSqlClauseInternal(StringBuilder sb){
             // append the 'SELECT' clause
             sb.Append("SELECT ");
 
-            var noPropertiesSelected = (_entityProperties == null) || 
-                                       (SelectedProperties.Count == 0);
-
-
-
-
-            if (noPropertiesSelected){
+            if (SelectAllColumns){
                 // we need all the members of EntityType
                 sb.Append(" * ");
             } else{
            
-
-                SelectedProperties.ForEach(prop =>{
+                SelectedColumns.ForEach(prop =>{
                     sb.AppendFormat("[{0}]", prop);
 
-                    if (SelectedProperties.IndexOf(prop) < (SelectedProperties.Count - 1)){
+                    if (SelectedColumns.IndexOf(prop) < (SelectedColumns.Count - 1)){
                          // add some space between different column names and a comma
                         sb.Append(", ");
                     }
@@ -64,10 +57,8 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
             // add some space before the 'FROM' clause
             sb.Append(" ");
 
-            // GENERATE THE 'FROM' CLAUSE PART
+            // GENERATE THE 'FROM' CLAUSE
             GenerateFromClause(sb);
         }
-
-       
     }
 }

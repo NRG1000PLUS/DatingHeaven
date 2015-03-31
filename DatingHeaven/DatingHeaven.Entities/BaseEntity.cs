@@ -8,7 +8,7 @@ using System.Text;
 
 namespace DatingHeaven.Entities {
     public abstract class BaseEntity{
-        private EntityKey _entityKey;
+        private object[] _keys;
 
 
         /// <summary>
@@ -16,19 +16,30 @@ namespace DatingHeaven.Entities {
         /// Entity key could be of type 'int' for BaseEntity
         /// </summary>
         [NotMapped]
-        public EntityKey Key{
+        public object[] Keys{
             get{
-                return _entityKey ?? (_entityKey = GetEntityKey());
+                return _keys;
+            }
+            protected set{
+                _keys = value;
+            }
+        }
+
+        protected void OnEntityKeySet(object newEntityKey){
+            if (newEntityKey == null){
+                throw new NullReferenceException("newEntityKey");
+            }
+            if (Keys != null){
+                var newKeys = new object[Keys.Length + 1];
+                Array.Copy(Keys, newKeys, Keys.Length);
+                newKeys[Keys.Length] = newEntityKey;
+                Keys = newKeys;
+            } else{
+                Keys = new object[]{ newEntityKey};
             }
         }
 
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        protected abstract EntityKey GetEntityKey();
 
         public override bool Equals(object anotherObject){
             if (anotherObject == null){
@@ -51,7 +62,7 @@ namespace DatingHeaven.Entities {
             var baseEntity = (BaseEntity)anotherObject;
 
             // check keys
-            return Key.Equals(baseEntity.Key);
+            return Keys.Equals(baseEntity.Keys);
         }
     }
 }

@@ -7,14 +7,21 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Text;
 using System.Data.Entity;
+using DatingHeaven.DataAccessLayer.EntityAdapters;
 using DatingHeaven.DataAccessLayer.Infrastructure;
 using DatingHeaven.Entities;
 using DatingHeaven.Entities.Member;
+using DatingHeaven.Entities.Profile;
+
 
 namespace DatingHeaven.DataAccessLayer {
     public class DatingHeavenDbContext : DbContext, IDbContext{
-        private DbSet<Message> _messages;
-        private DbSet<Member> _members;
+        private DbSet<Message>                 _messages;
+        private DbSet<Member>                  _members;
+        private DbSet<Profile>                 _profiles;
+        private DbSet<ProfileAttribute>        _profileAttributes;
+        private DbSet<ProfileAttributeValue>   _profileAttributeValues;
+        private DbSet<ProfileItem>             _profileItems; 
 
         
 
@@ -25,17 +32,43 @@ namespace DatingHeaven.DataAccessLayer {
 
         public DbSet<Message> Messages{
             get{
-                return _messages ?? (_messages = base.Set<Message>());
+                return _messages ?? (_messages = Set<Message>());
             }
         }
 
         public DbSet<Member> Members{
             get{
-                return _members ?? (_members = base.Set<Member>());
+                return _members ?? (_members = Set<Member>());
             }
         }
 
+        public DbSet<Profile> Profiles{
+            get{
+                return _profiles ?? (_profiles = Set<Profile>());
+            }
+        }
+
+        //public DbSet<ProfileAttribute> ProfileAttributes{
+        //    get{
+        //        return _profileAttributes ?? (_profileAttributes = Set<ProfileAttribute>());
+        //    }
+        //}
+
+
+        //public DbSet<ProfileAttributeValue> ProfileAttributeValues{
+        //    get{
+        //        return _profileAttributeValues ?? (_profileAttributeValues = Set<ProfileAttributeValue>());
+        //    }
+        //}
+
+        //public DbSet<ProfileItem> ProfileItems{
+        //    get{
+        //        return _profileItems ?? (_profileItems = Set<ProfileItem>());
+        //    }
+        //} 
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder){
+            
             modelBuilder.Entity<Message>().Map(m =>{
                 m.MapInheritedProperties();
 
@@ -54,9 +87,11 @@ namespace DatingHeaven.DataAccessLayer {
 
                 m.ToTable("Profiles");
             });
+
+      
         }
 
-        public DbSet<T> GetSet<T>() where T : BaseEntity{
+        public DbSet<T> GetSet<T>() where T : class {
             return base.Set<T>();
         }
 
@@ -71,37 +106,14 @@ namespace DatingHeaven.DataAccessLayer {
         }
 
 
-        public AdapterDbSet<TEntity, TAdapter> AdapterSet<TEntity, TAdapter>() 
-                   where TEntity: BaseEntity where TAdapter: class, IEntityAdapter, new(){
+        public AdapterDbSet<TEntity> AdapterSet<TEntity>() where TEntity: BaseEntity{
             var dbSet = base.Set<TEntity>();
-            return new AdapterDbSet<TEntity, TAdapter>(dbSet);
+            return new AdapterDbSet<TEntity>(dbSet);
         } 
 
 
 
 
-        public void UpdateEntityInContext<T>(object entityKey, 
-                                             string property, 
-                                             object value) where T : BaseBusinessEntity {
-            var entity = GetSet<T>().Local.FirstOrDefault(ent =>{
-                if (entityKey is EntityKey){
-                    // in case we have the composite key
-                    return ent.Key.Equals((EntityKey) entityKey);
-                }
-
-                var key = new EntityKey();
-                var keyMember = new EntityKeyMember("Id", entityKey);
-                key.EntityKeyValues = new EntityKeyMember[]{keyMember};
-
-                return ent.Key.Equals(key);
-            });
-
-            if (entity != null){
-                    // reload the entity if we need quick fixes
-                Entry(entity).Property(property).CurrentValue = value;
-                Entry(entity).Entity.ModifiedOn = DateTime.Now;
-            }
-        }
 
 
     }

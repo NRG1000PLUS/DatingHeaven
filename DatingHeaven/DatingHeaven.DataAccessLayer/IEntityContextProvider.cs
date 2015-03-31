@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq.Expressions;
+using DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer {
@@ -10,6 +11,12 @@ namespace DatingHeaven.DataAccessLayer {
     /// EntityContext allows a client to query low level entity data, get entity properties, values 
     /// </summary>
     public interface IEntityContextProvider{
+
+        /// <summary>
+        /// Get resolver for entity-specific properties
+        /// </summary>
+        IEntityInfoResolver EntityInfoResolver { get; }
+
         /// <summary>
         ///  Get the entity property value using a property name
         /// </summary>

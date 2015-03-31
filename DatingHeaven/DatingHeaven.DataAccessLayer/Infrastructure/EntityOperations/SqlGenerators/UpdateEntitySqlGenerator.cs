@@ -6,12 +6,10 @@ using System.Text;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators {
-    public class UpdateEntitySqlGenerator<T>: EntitySqlGenerator<T> where T: BaseBusinessEntity{
+    public class UpdateEntitySqlGenerator : EntitySqlGenerator{
         private Dictionary<string, object> _setProperties;    
 
-        public UpdateEntitySqlGenerator(SqlGeneratorConfig config, 
-                                        IEntityInfoResolver tableResolver) :
-            base(config, tableResolver){
+        public UpdateEntitySqlGenerator(SqlGeneratorConfig config) : base(config){
                         
         }
 
@@ -32,7 +30,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
        
 
 
-        public UpdateEntitySqlGenerator<T> Set(string property, object value){
+        public UpdateEntitySqlGenerator Set(string property, object value){
             if (_setProperties == null){
                   // 
                   _setProperties = new Dictionary<string, object>();
@@ -48,8 +46,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
 
         protected override void GenerateSqlClauseInternal(StringBuilder sb ){
             sb.Append("UPDATE ");
-            sb.AppendFormat("[{0}]",
-                      EntityInfoResolver.GetTableName<T>());
+            sb.AppendFormat("[{0}]", TableName);
 
             sb.AppendFormat(" {0} ", "SET");
             

@@ -18,7 +18,7 @@ namespace DatingHeaven.DataAccessLayer.EntityAdapters {
 
 
         public IQueryable CreateQuery(Expression expression){
-            return new AdapterDbSet<TEnt, TAdapter>(_entitySet);
+            return null;
         }
 
         public IQueryable<TElement> CreateQuery<TElement>(Expression expression){
@@ -27,10 +27,10 @@ namespace DatingHeaven.DataAccessLayer.EntityAdapters {
                 throw new Exception("Must create adapters query");
             }
 
-            IQueryable<TAdapter> query = new AdapterDbSet<TEnt, TAdapter>(_entitySet);
+          
 
             // cast to the IQueryable<TElement> 
-            return (IQueryable<TElement>)query;
+            return null;
         }
 
         public TResult Execute<TResult>(Expression expression) {

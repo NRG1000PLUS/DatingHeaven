@@ -11,15 +11,11 @@ using DatingHeaven.Entities;
 using Ninject.Infrastructure.Language;
 
 namespace DatingHeaven.DataAccessLayer {
-    public class AdapterDbSet<TEntity, TAdapter>: DbSet<TAdapter>, IQueryable<TAdapter>, IEnumerable<TAdapter> where TEntity: BaseEntity where TAdapter: class, IEntityAdapter, new(){
-        private readonly DbSet<TEntity> _dbSet;
-        private readonly EntityEnumerator<TAdapter, TEntity> _enumerator; 
-
-        
+    public class AdapterDbSet<TEntity>: IQueryable<EntityAdapter<TEntity>> where TEntity: BaseEntity{
+        private readonly DbSet<TEntity> _dbSet;       
 
         public AdapterDbSet(DbSet<TEntity> dbSet){
             _dbSet = dbSet;
-            _enumerator = new EntityEnumerator<TAdapter, TEntity>(dbSet);
         }
 
         public AdapterDbSet(IQueryProvider queryProvider,
@@ -37,7 +33,7 @@ namespace DatingHeaven.DataAccessLayer {
         public Type ElementType {
             get{
                 // Adapter type
-                return typeof (TAdapter);
+                return typeof (BaseEntity);
             }
         }
 
@@ -55,6 +51,14 @@ namespace DatingHeaven.DataAccessLayer {
         public IQueryProvider Provider{
             get; 
             private set; 
+        }
+
+        public IEnumerator<EntityAdapter<TEntity>> GetEnumerator(){
+            return null;
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            throw new NotImplementedException();
         }
     }
 }

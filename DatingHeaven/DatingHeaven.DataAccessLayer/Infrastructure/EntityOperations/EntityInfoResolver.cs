@@ -12,12 +12,12 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
         private static readonly Dictionary<Type, Dictionary<string, PropertyInfo>> EntityProperties = new Dictionary<Type, Dictionary<string, PropertyInfo>>();  
         private static readonly Dictionary<Type, string> EntityKeyPropertyNames = new Dictionary<Type, string>(); 
 
-        public string GetTableName<T>() where T : BaseEntity {
+        public string GetTableName<T>() where T : class {
               EnsureTableAttributeExists<T>();
               return GetTableNameInternal<T>();
         }
 
-        private void EnsureTableAttributeExists<T>() where T: BaseEntity{
+        private void EnsureTableAttributeExists<T>() where T: class {
             if (!HasTableName<T>()){
                 lock (TableNames){
                     if (!HasTableName<T>()){
@@ -28,7 +28,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
             }
         }
 
-        private static string GetTableNameInternal<T>() where T : BaseEntity{
+        private static string GetTableNameInternal<T>() where T : class {
             return TableNames[typeof (T)].Name;
         }
 
@@ -42,8 +42,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
                 throw new Exception("<TableAttribute> is not defined for type: " + type);
             }
 
-            var tableAttribute = (attributes[0] as TableAttribute);
-
+            var tableAttribute = (TableAttribute)attributes.FirstOrDefault();
             TableNames.Add( type, tableAttribute);
         }
 
@@ -54,12 +53,12 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
 
 
 
-        public string GetTableSchema<T>() where T : BaseEntity {
+        public string GetTableSchema<T>() where T : class {
             throw new NotImplementedException();
         }
 
 
-        public Type GetPropertyType<T>(string property) where T : BaseEntity {
+        public Type GetPropertyType<T>(string property) where T : class {
             if (!HasEntityProperties<T>()){
                 lock (EntityProperties){
                     if (!HasEntityProperties<T>()){
@@ -80,7 +79,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
         }
 
 
-        public string GetEntityKeyProperty<T>() where T : BaseEntity {
+        public string GetEntityKeyProperty<T>() where T : class {
             if (!EntityKeyPropertyNames.ContainsKey(typeof (T))){
                 lock (EntityKeyPropertyNames){
                     if (!EntityKeyPropertyNames.ContainsKey(typeof (T))){
@@ -107,6 +106,15 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
             }
 
             return EntityKeyPropertyNames[typeof (T)];
+        }
+
+
+        public string[] GetOrderedKeyPropertyNames<T>() where T : BaseEntity {
+            throw new NotImplementedException();
+        }
+
+        public string GetEntityKeyPropertyName<T>(int keyPropertyOrder) where T : BaseEntity {
+            throw new NotImplementedException();
         }
     }
 }

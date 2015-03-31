@@ -6,22 +6,37 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
         /// <summary>
         /// Get name of the table by its entity type
         /// </summary>
-        string GetTableName<T>() where T : BaseEntity;
+        string GetTableName<T>() where T : class ;
 
         /// <summary>
         /// Get schema of the table by its entity type
         /// </summary>
-        string GetTableSchema<T>() where T: BaseEntity;
+        string GetTableSchema<T>() where T: class ;
 
         /// <summary>
         /// Get type of the entity property using its name
         /// </summary>
-        Type GetPropertyType<T>(string property) where T : BaseEntity;
+        Type GetPropertyType<T>(string property) where T : class ;
 
 
         /// <summary>
         /// Get the Key property of entity, having [KeyAttribute] 
         /// </summary>
-        string GetEntityKeyProperty<T>() where T : BaseEntity;
+        string GetEntityKeyProperty<T>() where T : class ;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        string[] GetOrderedKeyPropertyNames<T>() where T : BaseEntity;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="keyPropertyOrder"></param>
+        /// <returns></returns>
+        string GetEntityKeyPropertyName<T>(int keyPropertyOrder) where T : BaseEntity;
     }
 }

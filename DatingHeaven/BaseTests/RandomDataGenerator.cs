@@ -4,24 +4,27 @@ using System.Linq;
 using System.Text;
 
 namespace BaseTests {
-    class RandomDataGenerator{
-
-        private const int MINIMAL_INT = 20000;
-        private const int MAXIMAL_INT = 90000;
-        private Random r = new Random();
-
-        public string GenerateRandomString(int size){
-            var data = new StringBuilder();
-
-            for (var idx = 0; idx < size; idx++){
-                data.Append((char) r.Next(97,122));
-            }
-
-            return data.ToString();
-        }
+    class RandomDataGenerator {
+        private Random _random = new Random();
+        private const int MIN_RANDOM_INT = 10000;
+        private const int MAX_RANDOM_INT = 1000000;
 
         public int RandomInt(){
-            return r.Next(MINIMAL_INT, MAXIMAL_INT);
+            return _random.Next(MIN_RANDOM_INT, MAX_RANDOM_INT);
+        }
+
+        public string RandomString(int size){
+            var sb = new StringBuilder();
+
+            for (var i = 0; i < size; ++i){
+                sb.Append((char)_random.Next(65, 65 + 26));
+            }
+            return sb.ToString();
+        }
+
+        public bool RandomBool(){
+            int randomInt = _random.Next(MIN_RANDOM_INT, MAX_RANDOM_INT);
+            return randomInt > (MIN_RANDOM_INT + ((MAX_RANDOM_INT - MIN_RANDOM_INT) / 2));
         }
     }
 }

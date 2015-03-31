@@ -20,11 +20,11 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
     public class EntityContextProvider : IEntityContextProvider{
         private readonly IEntityInfoResolver                     _entityInfoResolver;
         private readonly IDbContext                              _dbContext;
-        private readonly IEntitySqlGeneratorsFactory             _sqlGeneratorsFactory;
+        private readonly IEntitySqlGeneratorsProvider             _sqlGeneratorsFactory;
 
         public EntityContextProvider(              IEntityInfoResolver   entityInfoResolver,                       
                                                             IDbContext   dbContext,
-                                            IEntitySqlGeneratorsFactory  sqlGeneratorsFactory){
+                                            IEntitySqlGeneratorsProvider  sqlGeneratorsFactory){
             _entityInfoResolver = entityInfoResolver;
             _dbContext = dbContext;   // dbContext //
             _sqlGeneratorsFactory = sqlGeneratorsFactory;
@@ -32,24 +32,62 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
 
         public virtual object GetPropertyValue<T>(object entityKey, string entityProperty) where T : BaseEntity{
             EnsureEntityKeyIsValid(entityKey);
-            var sqlGenForSelect = _sqlGeneratorsFactory.CreateSelectSqlGenerator<T>();
+            SelectEntitySqlGenerator sqlGenerator = _sqlGeneratorsFactory.CreateSelectGenerator();
 
             // initialize the generator
-            sqlGenForSelect.Key = entityKey;
-            sqlGenForSelect.SelectedProperties.Add(entityProperty);
+            InitializeSelectSqlGenerator<T>(     sqlGenerator: sqlGenerator,
+                                                    entityKey: entityKey,
+                                           selectedProperties: entityProperty);
             
 
             var querySelectProperty = _dbContext.Database.SqlQuery(
                 // TODO: Finish with EntityProviderAnalyzer 
                  elementType: _entityInfoResolver.GetPropertyType<T>(entityProperty),
-                 sql: sqlGenForSelect.GenerateSql(),
+                 sql: sqlGenerator.GenerateSql(),
                  parameters: MakeParametersFromEntityKey(entityKey)
             );
-           
-
+         
             //return the value
             var enumerator = querySelectProperty.GetEnumerator();
-            return enumerator.MoveNext() ? enumerator.Current : null;
+            object result = null;
+
+            try{
+                if (enumerator.MoveNext()){
+                    // get a value from enumerator
+                    result = enumerator.Current;
+                }
+            } catch (Exception ex){
+
+                throw;
+            }
+
+            return result;
+        }
+
+        
+
+        private void InitializeSelectSqlGenerator<T>
+            (SelectEntitySqlGenerator sqlGenerator,
+                object entityKey,
+                params string[] selectedProperties) where T: BaseEntity{
+            if (entityKey is int){
+                var whereIdCondition = new WhereCondition{
+                    Column = "Id",
+                    Operator = SqlOperator.Equals,
+                    Value = entityKey
+                };
+                sqlGenerator.WhereConditions.Add(whereIdCondition);
+            } else if (entityKey is object[]){
+                var keys = ((object[]) entityKey).ToList();
+                keys.ForEach(key =>{
+                    var whereCondition = new WhereCondition{
+                        Column = _entityInfoResolver.GetEntityKeyPropertyName<T>(keys.IndexOf(key)),
+                        Operator = SqlOperator.Equals,
+                        Value = key
+                    };
+                    sqlGenerator.WhereConditions.Add(whereCondition);
+                });
+            }
         }
 
      
@@ -61,10 +99,9 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
                 result = new object[]{
                    entityKey
                 };  
-            } else if (entityKey is EntityKey){
-                result = ((EntityKey) entityKey).EntityKeyValues.
-                    Select(m => m.Value).
-                    ToArray();
+            } else if (entityKey is object[]){
+                // composite key
+                result = (object[])entityKey;
             }
 
             return result ?? new object[0];
@@ -74,19 +111,14 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
         public bool SetPropertyValue<T>(object entityKey, string property, object value) where T: BaseBusinessEntity{
             EnsureEntityKeyIsValid(entityKey);
 
-            var updateEntityGen = _sqlGeneratorsFactory.CreateUpdateSqlGenerator<T>();
-            updateEntityGen.Key = entityKey;
+            var updateEntityGen = _sqlGeneratorsFactory.CreateUpdateGenerator();
+            //updateEntityGen.Key = entityKey;
             updateEntityGen.Set(property, value);
 
             var result = (_dbContext.Database.ExecuteSqlCommand(
                               sql: updateEntityGen.GenerateSql(),
                               parameters: MakeParametersFromEntityKey(entityKey)) > 0      
                         );
-
-            if (result){
-                  // update the entity in DbContext, reload the entity
-                 _dbContext.UpdateEntityInContext<T>(entityKey, property, value);
-            }
 
             return result;
         }
@@ -145,13 +177,21 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
                 throw new NullReferenceException("entityKey");
             }
 
-            var result = (entityKey is EntityKey) ||
+
+
+            var result = (entityKey is object[]) ||
                          (entityKey is int) ||
                          (entityKey is string);
             if (!result){
                 //
                 throw new ArgumentException("Entity Key must be of type: [int, string, EntityKey]");
             }
+
+        
+        }
+
+        public IEntityInfoResolver EntityInfoResolver {
+            get { throw new NotImplementedException(); }
         }
     }
 }

@@ -10,6 +10,11 @@ namespace DatingHeaven.DataAccessLayer {
                 throw new NullReferenceException("value");
             }
 
+            if (value == DBNull.Value){
+                // NULL value, WHERE [NickName] is NULL
+                return "NULL";
+            }
+
              if (value is string){
                 // Any string to Unicode string
                 return StringToString((string) value);
@@ -29,6 +34,10 @@ namespace DatingHeaven.DataAccessLayer {
                 return BoolToString((bool) value);
             }
 
+            if (value is DateTime){
+                return DateTimeToString((DateTime) value);
+            }
+
             if (value is ValueType){
                 // uint, ulong, long 
                 return value.ToString();
@@ -37,6 +46,11 @@ namespace DatingHeaven.DataAccessLayer {
             return null;
         }
 
+        private static string DateTimeToString(DateTime dt) {
+            return String.Format("'{0}/{1}/{2} {3}:{4}:{5}'", 
+                dt.Month, dt.Day, dt.Year, dt.Hour, dt.Minute, dt.Second);
+        }
+                                                 
         private static string BoolToString(bool p){
             return (p ? 1 : 0).ToString();
         }
@@ -47,7 +61,7 @@ namespace DatingHeaven.DataAccessLayer {
 
 
         public static string StringToString(string strValue){
-            return string.Format("N'{0}'", strValue);
+            return string.Format("'{0}'", strValue);
         }
 
         public static string CharToString(char ch){

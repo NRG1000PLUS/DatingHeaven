@@ -7,32 +7,27 @@ using System.Text;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators {
-    public abstract class EntitySqlGenerator<T> : SqlGenerator where T: BaseEntity{
-        protected IEntityInfoResolver EntityInfoResolver;
-        private readonly Type _typeBaseBusinessEntityWithId;
+    public abstract class EntitySqlGenerator : SqlGenerator{
 
-        protected EntitySqlGenerator(SqlGeneratorConfig config,
-                                     IEntityInfoResolver tableResolver) : base(config){
-            if (tableResolver == null){
-                // we cannot work futher without a TableNameResolver
-                throw new NullReferenceException("<TableNameResolver> is not defined");
-            }
-
-            EntityInfoResolver = tableResolver;
-            
-            // save the type of [BaseBusinessEntityWithId] to the local variable
-            _typeBaseBusinessEntityWithId = typeof (BaseBusinessEntityWithId);
+        protected EntitySqlGenerator(SqlGeneratorConfig config) : base(config){
+           
         }
 
-        
 
-        /// <summary>
-        /// Keys used as filters in the 'WHERE' clause
-        /// </summary>
-        public object Key{
+        public string TableName{
             get; 
-            set;
+            set; 
         }
+
+        public List<IWhereCondition> WhereConditions{
+            get; 
+            set; 
+        }
+
+        public List<LogicalOperation> LogicalOperations{
+            get; 
+            set; 
+        } 
 
 
         /// <summary>
@@ -48,7 +43,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
             // GENERATE THE MAJOR PART OF THE SQL QUERY
             //GenerateFromClause(sb);
 
-            if (Key != null){
+            if (WhereConditions != null){
                 // GENERATE THE 'WHERE' CLAUSE
                 GenerateWhereClause(sb);
             }
@@ -62,9 +57,9 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
                sb.Append("FROM ");
 
                // sql: FROM [{TableName}]
-               sb.AppendFormat("[{0}]", EntityInfoResolver.GetTableName<T>());
+               sb.AppendFormat("[{0}]", TableName);
 
-               if (Key != null){
+               if ( WhereConditions != null ){
                    // add some space after the [{TableName}] 
                    // cause next is 'WHERE' clause coming
                    sb.Append(" ");
@@ -75,33 +70,114 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
             // sql: WHERE 
             sb.Append("WHERE ");
 
-            if (Key is int){
-                // single key
-                if (IsBaseEntityWithId()){
-                    // The current entity type is {BaseEntityWithId}
-                    sb.AppendFormat("[Id] = {0}", Config.ParameterSymbol + "0");
-                } else{
-                    var keyPropertyName = EntityInfoResolver.GetEntityKeyProperty<T>();
-                    sb.AppendFormat("[{0}] = {1}", keyPropertyName, Config.ParameterSymbol + "0");
+            //for (var condIdx = 0; condIdx < WhereConditions.Count; condIdx++){
+            //    var condition = WhereConditions[condIdx];
+            //    WriteCondtion(sb, condition, condIdx);
+            //    if (condIdx < (WhereConditions.Count - 1)){
+            //        sb.Append(" AND ");
+            //    }
+            //}
+
+            WriteConditions(sb);
+        }
+
+
+        private void WriteConditions(StringBuilder sb){
+            for (var conditionIndex = 0; conditionIndex < WhereConditions.Count; conditionIndex++){
+                IWhereCondition condition = WhereConditions[conditionIndex]; 
+
+                if (conditionIndex > 0){
+                    var logicalOperation = LogicalOperations[conditionIndex - 1];
+                    WriteLogicalOperation(sb, logicalOperation);
                 }
-            } else{
-                // composite key
-                var keyMembers = ((EntityKey) Key).EntityKeyValues.ToList();
-                keyMembers.ForEach(key =>{
-                    sb.AppendFormat("([{0}] = {1})",
-                                    key.Key,
-                                    Config.ParameterSymbol + keyMembers.IndexOf(key));
-                    if (keyMembers.IndexOf(key) < (keyMembers.Count - 1)){
-                        // add some space and a AND operator
-                        sb.Append(" AND ");
-                    }
-                });
+
+                if (condition is WhereCondition){
+                    WriteWhereCondition(sb, (WhereCondition) condition);
+                } else if (condition is WhereConditionsGroup){
+                    WriteConditionsGroup(sb, (WhereConditionsGroup) condition);
+                }
             }
         }
 
-        private bool IsBaseEntityWithId(){
-            // check if possible to assign 
-            return _typeBaseBusinessEntityWithId.IsAssignableFrom(typeof (T));
+        
+
+        private void WriteConditionsGroup(StringBuilder sb, WhereConditionsGroup group){
+            sb.Append("(");
+
+            int conditionIndex = 0;
+
+            foreach(var condition in group.Conditions){
+                if (condition is WhereCondition){
+                    if (conditionIndex > 0){
+                        var logicalOperation = group.LogicalOperations[conditionIndex - 1];
+                        WriteLogicalOperation(sb, logicalOperation);
+                    }
+
+                    WriteWhereCondition(sb, (WhereCondition)condition);
+                    conditionIndex++;
+                } else if (condition is WhereConditionsGroup){
+                    // recursive call 
+                    WriteConditionsGroup(sb, (WhereConditionsGroup)condition);
+                }
+            }
+
+            sb.Append(")");
+        }
+
+        private void WriteWhereCondition(StringBuilder sb, WhereCondition whereCondition){
+            sb.AppendFormat("[{0}]", whereCondition.Column);
+
+            // write the OPERATOR part
+            WriteLogicalOperator(sb, whereCondition.Operator);
+
+            WriteConditionIndex(sb, whereCondition.ParameterIndex);
+        }
+
+        private void WriteConditionIndex(StringBuilder sb, int paramIndex){
+            sb.Append(" ");
+
+            sb.AppendFormat("@p{0}", paramIndex);
+        }
+
+        private void WriteLogicalOperation(StringBuilder sb, LogicalOperation logicalOperation){
+            switch (logicalOperation){
+                case LogicalOperation.AND:
+                    sb.Append(" AND ");
+                    break;
+                case LogicalOperation.OR:
+                    sb.Append(" OR ");
+                    break;
+            }
+        }
+
+        private void WriteLogicalOperator(StringBuilder sb, SqlOperator sqlOperator){
+            sb.Append(" ");
+
+            switch (sqlOperator){
+                 case SqlOperator.Equals:
+                    sb.Append("=");
+                    break;
+                case SqlOperator.NotEquals:
+                    sb.Append("!=");
+                    break;
+                case SqlOperator.GreaterThan:
+                    sb.Append(">");
+                    break;
+                case SqlOperator.LessThan:
+                    sb.Append("<");
+                    break;
+                case SqlOperator.LessOrEquals:
+                    sb.Append("<=");
+                    break;
+                case SqlOperator.GreaterOrEquals:
+                    sb.Append(">=");
+                    break;
+                case SqlOperator.Is:
+                    sb.Append("is");
+                    break;
+            }
+
+            sb.Append(" ");
         }
     }
 }

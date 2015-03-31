@@ -14,3 +14,7 @@ C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\Ninject.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\Ninject.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\nunit.framework.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\nunit.framework.xml
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\NSubstitute.dll
+C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\BaseTests\bin\Debug\NSubstitute.xml

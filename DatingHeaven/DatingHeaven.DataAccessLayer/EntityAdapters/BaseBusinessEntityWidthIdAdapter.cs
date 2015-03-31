@@ -24,10 +24,10 @@ namespace DatingHeaven.DataAccessLayer.EntityAdapters {
 
         public bool IsHidden{
             get{
-                return _entity.IsHidden;
+                return false;
             }
             set{
-                _entity.IsHidden = value;
+                
             }
         }
 
