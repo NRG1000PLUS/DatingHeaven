@@ -9,18 +9,14 @@ using System.Text;
 namespace DatingHeaven.Entities {
     public abstract class BaseLookupEntity: BaseEntity {
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column(Order = 0, TypeName = "integer")]
         public int Id{
             get; 
             set; 
         }
 
-
-        [Required]
-        [MaxLength(500)]
-        [Index(IsClustered = false, IsUnique = true)]
+        /// <summary>
+        /// Name of the entry in the dictionary list
+        /// </summary>
         public string Name{
             get; 
             set; 

@@ -13,7 +13,6 @@ namespace DatingHeaven.Entities {
         /// <summary>
         /// Date when this entity was created
         /// </summary>
-        [Required]
         public DateTime CreatedOn{
             get; 
             set; 

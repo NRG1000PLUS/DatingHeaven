@@ -4,16 +4,37 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using DatingHeaven.DataAccessLayer.FluentSyntax;
 using DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators;
 using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer {
     public interface IRepository<T> where T: BaseEntity{
         /// <summary>
+        /// Set an existing context
+        /// </summary>
+        void SetContext(IDbContext dbContext);
+
+        /// <summary>
         /// Get entity by keys
         /// </summary>
         T GetById(object entityKey);
 
+        /// <summary>
+        ///  Get entity along with included properties
+        /// </summary>
+        T GetByIdInclude(object entityKey, params Expression<Func<T, object>>[] includedProperties);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="propertySelector"></param>
+        /// <param name="propertyValue"></param>
+        /// <param name="includeProperties"></param>
+        /// <returns></returns>
+        IList<T> GetWhereInclude(Expression<Func<T, object>> propertySelector, object propertyValue,
+                                  params Expression<Func<T, object>>[] includeProperties); 
+            
         /// <summary>
         /// Get all entities in the table
         /// </summary>
@@ -37,7 +58,7 @@ namespace DatingHeaven.DataAccessLayer {
         /// <summary>
         /// 
         /// </summary>
-        IList<T> GetWhere(Expression<Func<T, object>> propertySelector, SqlOperator sqlOperator, object propertyValue); 
+        IList<T> GetWhere(Expression<Func<T, object>> propertySelector, Comparison comparison, object propertyValue); 
 
         /// <summary>
         /// Get entities using a filter with EQUALS operator
@@ -60,7 +81,7 @@ namespace DatingHeaven.DataAccessLayer {
         /// <summary>
         /// Get entities using a filter
         /// </summary>
-        IList<T> GetWhere(string propertyName, SqlOperator sqlOperator, object propertyValue); 
+        IList<T> GetWhere(string propertyName, Comparison comparison, object propertyValue); 
 
         /// <summary>
         /// Update the current entity
@@ -81,5 +102,10 @@ namespace DatingHeaven.DataAccessLayer {
         /// Delete entity by its key
         /// </summary>
         void DeleteById(object entityKey);
+
+        /// <summary>
+        /// Get the entity table 
+        /// </summary>
+        IQueryable<T> Table { get; } 
     }
 }

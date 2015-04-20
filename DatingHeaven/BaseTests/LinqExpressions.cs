@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
-using DatingHeaven.Entities.Member;
+using DatingHeaven.Entities.Members;
 using NUnit.Framework;
 
 namespace BaseTests {

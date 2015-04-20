@@ -13,6 +13,6 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
 
         DeleteEntitySqlGenerator CreateDeleteGenerator();
 
-        object[] BuildParametersList(IEnumerable<IWhereCondition> whereConditions);
+        object[] BuildParametersList(IEnumerable<IWhereConditionRoot> whereConditions);
     }
 }

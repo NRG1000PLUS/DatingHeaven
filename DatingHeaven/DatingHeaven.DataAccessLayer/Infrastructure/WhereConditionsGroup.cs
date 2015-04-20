@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 
 namespace DatingHeaven.DataAccessLayer.Infrastructure {
-    public class WhereConditionsGroup : IWhereCondition{
+    public class WhereConditionsGroup : IWhereConditionRoot{
 
-        private readonly List<IWhereCondition> _conditions;
-        private readonly List<LogicalOperation> _logicalOperations; 
+        private readonly List<IWhereConditionRoot> _conditions = new List<IWhereConditionRoot>();
+        private readonly List<LogicalOperation> _logicalOperations = new List<LogicalOperation>();
 
         public WhereConditionsGroup(){
-            _conditions = new List<IWhereCondition>();
-            _logicalOperations = new List<LogicalOperation>();
+           
         }
 
-        public List<IWhereCondition> Conditions{
+        public List<IWhereConditionRoot> Conditions{
             get{
                 return _conditions;
             }

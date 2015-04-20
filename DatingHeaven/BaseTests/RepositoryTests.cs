@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,63 +7,54 @@ using DatingHeaven.DataAccessLayer;
 using DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations;
 using DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators;
 using DatingHeaven.Entities;
+using DatingHeaven.Entities.Members;
+using Ninject;
 using NUnit.Framework;
 
 namespace BaseTests {
     
     [TestFixture]
     public class RepositoryTests{
-        private const int MAX_RECORDS_COUNT = 10000;
+        private const int MAX_RECORDS_COUNT = 1000;
 
-
-        private IRepository<Message>           _messagesRepo;
-        private IEntitySqlGeneratorsProvider    _sqlGeneratorsProvider;
-        private IEntityInfoResolver            _entityInfoResolver;
-        private DatingHeavenDbContext          _dbContext;
+        #region === REPOSITORIES ===
+            private IRepository<Message>           _messagesRepo;
+            private IRepository<Member>            _membersRepo;
+            private IDbContextProvider             _dbContextProvider;
+        #endregion
         private RandomDataGenerator            _randomDataGenerator;
-        private IDbContextProvider             _dbContextProvider;
-        private IPropertySelectionAnalyzer _propertySelectionAnalyzer;
 
-        private Message _newMessage;
+        private int _lastCreatedMemberId;
+
+        
 
         [TestFixtureSetUp]
         public void Init(){
-            _entityInfoResolver = new EntityInfoResolver();
-            _sqlGeneratorsProvider = new EntitySqlGeneratorsProvider();
-            _propertySelectionAnalyzer = new PropertySelectionAnalyzer();
-            _dbContextProvider = new DbContextProvider();
-
-            _messagesRepo = new EfRepository<Message>(
-                    sqlGeneratorsFactory: _sqlGeneratorsProvider,
-                    propertySelectionAnalyzer: _propertySelectionAnalyzer,
-                    dbContextProvider: _dbContextProvider,
-                    entityInfoResolver: _entityInfoResolver
-                );
-
+           using ( var kernel = new StandardKernel(new DalNInjectModule())){
+               _messagesRepo = kernel.Get<IRepository<Message>>();
+               _membersRepo = kernel.Get<IRepository<Member>>();
+               _dbContextProvider = kernel.Get<IDbContextProvider>();
+           }
             _randomDataGenerator = new RandomDataGenerator();
 
-            _dbContext = new DatingHeavenDbContext();
-            _dbContext.Database.Delete();
-            if (!_dbContext.Database.Exists()){
-                // create the DB if it does not exist
-                _dbContext.Database.Create();
-                CreateRandomMessages();
+            using (var dbContext = new DatingHeavenDbContext()){
+                dbContext.Database.Delete();
+                if (!dbContext.Database.Exists()){
+                    // create the DB if it does not exist
+                    try{
+                        dbContext.Database.Create();
+                        CreateRandomMembers();
+                        CreateRandomMessages();
+                    } catch (Exception ex){
+                        if (dbContext.Database.Exists()){
+                            
+                           //    dbContext.Database.Delete();
+                        }
+
+                        throw;
+                    }
+                }
             }
-            _dbContext.Database.Log = s => Debug.WriteLine(s);
-           // _dbContext.ObjectContext.ObjectMaterialized += new System.Data.Entity.Core.Objects.ObjectMaterializedEventHandler(ObjectContext_ObjectMaterialized);
-
-
-            //_newMessage = new Message{
-            //    Body = _randomDataGenerator.RandomString(50),
-            //    Header = _randomDataGenerator.RandomString(50),
-            //    CreatedOn = DateTime.Now,
-            //    IsRead = _randomDataGenerator.RandomBool(),
-            //    ReceiverId = _randomDataGenerator.RandomInt(),
-            //    SenderId = _randomDataGenerator.RandomInt()
-            //};
-
-            //_messagesRepo.Insert(_newMessage);
-
         }
 
         
@@ -73,18 +65,65 @@ namespace BaseTests {
                     Body = _randomDataGenerator.RandomString(1000),
                     Header = _randomDataGenerator.RandomString(100),
                     IsRead = _randomDataGenerator.RandomBool(),
-                    ReceiverId = _randomDataGenerator.RandomInt(),
-                    SenderId = _randomDataGenerator.RandomInt()
+                    ReceiverId = _randomDataGenerator.RandomIntBetween(1, _lastCreatedMemberId + 1),
+                    SenderId = _randomDataGenerator.RandomIntBetween(1, _lastCreatedMemberId + 1)
                 };
 
                 _messagesRepo.Insert(newMessage);
             }
         }
 
+
+        [Test]
+        public void CreateRandomMembers(){
+            Member member;
+
+            member = new Member{
+                CreatedOn = DateTime.Now,
+                Email = "nickresh777@gmail.com",
+                FirstName = "Nick",
+                Gender = "M",
+                LastName = "Reshetinsky",
+                NickName = "NickResh777"
+            };
+            _membersRepo.Insert(member);
+
+            member = new Member{
+               CreatedOn = DateTime.Now,
+               Email = "jcatler@gmail.com",
+               FirstName = "Jake",
+               LastName = "Catler",
+               NickName = "JCatler",
+               Gender = "M"
+            };
+            _membersRepo.Insert(member);
+
+            member = new Member{
+                CreatedOn = DateTime.Now,
+                Email = "jeremyclarkson@gmail.com",
+                FirstName = "Jeremy",
+                LastName = "Clarkson",
+                Gender = "M",
+                NickName = "JClarkson"
+            };
+            _membersRepo.Insert(member);
+
+            _lastCreatedMemberId = member.Id;
+        }
+
+
         [Test]
         public void repository_select_messages_with_filter(){
             var readMessages = _messagesRepo.GetWhere(m => m.Id, 10001);
            // Assert.IsTrue(readMessages.Count == 0);
+        }
+
+
+        [Test]
+        public void repository_get_members_list(){
+            var members = _membersRepo.GetAll();
+            Assert.True(members != null);
+            Assert.True(members.Count > 0);
         }
 
         [Test]
@@ -130,22 +169,22 @@ namespace BaseTests {
         public void repository_GetListWhere_method_invoked_with_SqlOperator(){
             IList<Message> messages = null;
             // check '<' operator (less than) 
-            messages = _messagesRepo.GetWhere(m => m.Id, SqlOperator.LessThan, 3000);
+            messages = _messagesRepo.GetWhere(m => m.Id, Comparison.LessThan, 3000);
             Assert.True( messages.All(m => m.Id < 3000));
             Assert.True( messages.FirstOrDefault(m => m.Id == 3000) == null);
 
             // check '>' operator (greater than)
-            messages = _messagesRepo.GetWhere(m => m.Id, SqlOperator.GreaterThan, 6000);
+            messages = _messagesRepo.GetWhere(m => m.Id, Comparison.GreaterThan, 6000);
             Assert.True(messages.All(m => m.Id > 6000));
             Assert.True(messages.FirstOrDefault(m => m.Id == 6000) == null);
 
             // check '<=' operator (less or equals)
-            messages = _messagesRepo.GetWhere(m => m.Id, SqlOperator.LessOrEquals, 9000);
+            messages = _messagesRepo.GetWhere(m => m.Id, Comparison.LessOrEquals, 9000);
             Assert.IsTrue(messages.All(m => m.Id <= 9000));
             Assert.True(messages.FirstOrDefault(m => m.Id == 9000) != null);
 
             // check '>=' operator (greater or equals)
-            messages = _messagesRepo.GetWhere(m => m.Id, SqlOperator.GreaterOrEquals, 5601);
+            messages = _messagesRepo.GetWhere(m => m.Id, Comparison.GreaterOrEquals, 5601);
             Assert.True(messages.All(m => m.Id >= 5601));
             Assert.True(messages.FirstOrDefault(m => m.Id == 5601) != null);
         }
@@ -174,7 +213,7 @@ namespace BaseTests {
             Assert.IsTrue(messages.All(m => m.IsRead == false));
 
 
-            messages = _messagesRepo.GetWhere("Id", SqlOperator.GreaterThan, 3000);
+            messages = _messagesRepo.GetWhere("Id", Comparison.GreaterThan, 3000);
             Assert.True(messages.Count > 0);
             Assert.True(messages.All(m => m.Id > 3000));
             Assert.IsNull(messages.FirstOrDefault(m => m.Id == 3000));
@@ -190,8 +229,8 @@ namespace BaseTests {
         [Test]
         [Ignore]
         public void repository_GetById_method_with_single_key(){
-            var message = _messagesRepo.GetById(_newMessage.Id);
-            Assert.IsTrue(message != null);
+          //  var message = _messagesRepo.GetById(_newMessage.Id);
+           // Assert.IsTrue(message != null);
         }
 
         [Test]
@@ -205,10 +244,13 @@ namespace BaseTests {
             Assert.True(result != null && result.Count > 0);
         }
 
-        [TestFixtureTearDown]
-        public void ShutDown(){
-           // delete the previous message
-          // _messagesRepo.Delete(_newMessage);
+        [Test]
+        public void repository_get_message_with_member_relation(){
+
+            var message = _messagesRepo.GetById(3);
+            Assert.NotNull(message);
+            var resultList = _messagesRepo.GetAll();
+
         }
     }
 }

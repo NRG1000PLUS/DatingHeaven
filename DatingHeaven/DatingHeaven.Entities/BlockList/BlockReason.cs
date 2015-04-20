@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 namespace DatingHeaven.Entities.BlockList {
-    [Table("BlockReasons", Schema = "dbo")]
+    [Table("BlockReasons")]
     public class BlockReason {
 
     }

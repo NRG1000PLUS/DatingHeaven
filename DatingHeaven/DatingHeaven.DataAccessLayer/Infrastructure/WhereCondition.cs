@@ -1,13 +1,15 @@
-﻿using DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators;
+﻿using System.Diagnostics;
+using DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators;
 
 namespace DatingHeaven.DataAccessLayer.Infrastructure{
-    public class WhereCondition : IWhereCondition{
+    [DebuggerDisplay("{Column} {Operator} {Value}")]
+    public class WhereCondition : IWhereConditionRoot{
         public string Column{
             get; 
             set;
         }
 
-        public SqlOperator Operator{
+        public Comparison Operator{
             get; 
             set;
         }

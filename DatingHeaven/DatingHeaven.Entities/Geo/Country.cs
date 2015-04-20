@@ -11,12 +11,19 @@ namespace DatingHeaven.Entities.Geo {
     [Table("Countries")]
     public class Country: BaseLookupEntity {
 
-        [Required]
-        [MaxLength(10)]
         public string Code{
             get; 
             set; 
         }
-        
+
+        public virtual IList<RegionState> RegionStates {
+            get;
+            set;
+        }
+
+        public virtual IList<City> Cities {
+            get;
+            set;
+        } 
     }
 }

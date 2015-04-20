@@ -4,94 +4,59 @@ using System.Data.Entity.Core;
 using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Core.Objects.DataClasses;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.ModelConfiguration;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Data.Entity;
 using DatingHeaven.DataAccessLayer.EntityAdapters;
 using DatingHeaven.DataAccessLayer.Infrastructure;
+using DatingHeaven.DataAccessLayer.Mapping;
+using DatingHeaven.DataAccessLayer.Mapping.Geo;
 using DatingHeaven.Entities;
-using DatingHeaven.Entities.Member;
+using DatingHeaven.Entities.Geo;
+using DatingHeaven.Entities.Members;
 using DatingHeaven.Entities.Profile;
 
 
 namespace DatingHeaven.DataAccessLayer {
     public class DatingHeavenDbContext : DbContext, IDbContext{
-        private DbSet<Message>                 _messages;
-        private DbSet<Member>                  _members;
-        private DbSet<Profile>                 _profiles;
-        private DbSet<ProfileAttribute>        _profileAttributes;
-        private DbSet<ProfileAttributeValue>   _profileAttributeValues;
-        private DbSet<ProfileItem>             _profileItems; 
-
-        
-
         public DatingHeavenDbContext(){
-
+           // enable the Lazy Loading
             Configuration.LazyLoadingEnabled = false;
         }
 
-        public DbSet<Message> Messages{
-            get{
-                return _messages ?? (_messages = Set<Message>());
-            }
-        }
-
-        public DbSet<Member> Members{
-            get{
-                return _members ?? (_members = Set<Member>());
-            }
-        }
-
-        public DbSet<Profile> Profiles{
-            get{
-                return _profiles ?? (_profiles = Set<Profile>());
-            }
-        }
-
-        //public DbSet<ProfileAttribute> ProfileAttributes{
-        //    get{
-        //        return _profileAttributes ?? (_profileAttributes = Set<ProfileAttribute>());
-        //    }
-        //}
-
-
-        //public DbSet<ProfileAttributeValue> ProfileAttributeValues{
-        //    get{
-        //        return _profileAttributeValues ?? (_profileAttributeValues = Set<ProfileAttributeValue>());
-        //    }
-        //}
-
-        //public DbSet<ProfileItem> ProfileItems{
-        //    get{
-        //        return _profileItems ?? (_profileItems = Set<ProfileItem>());
-        //    }
-        //} 
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder){
-            
-            modelBuilder.Entity<Message>().Map(m =>{
-                m.MapInheritedProperties();
+           // register entity types
+           RegisterEntityTypeConfigurations(modelBuilder);
 
-                // table name in the physical DB
-                m.ToTable("Messages");
-            });
-
-            modelBuilder.Entity<Member>().Map(m =>{
-                m.MapInheritedProperties();
-
-                m.ToTable("Members");
-            });
-
-            modelBuilder.Entity<Profile>().Map(m =>{
-                m.MapInheritedProperties();
-
-                m.ToTable("Profiles");
-            });
-
-      
+           // fix error with DateTime conversion to the DB type
+           HandleDateTimeError(modelBuilder); 
         }
 
-        public DbSet<T> GetSet<T>() where T : class {
+        private void HandleDateTimeError(DbModelBuilder modelBuilder){
+            modelBuilder.Properties<DateTime>().Configure(
+                config => config.HasColumnType("datetime2").
+                                 HasPrecision(0)
+            );
+        }
+
+        private void RegisterEntityTypeConfigurations(DbModelBuilder modelBuilder){
+            var entityConfigTypes = (from type in typeof (BaseMap<>).Assembly.GetTypes()
+                where type.IsClass && !type.IsAbstract &&
+                      (type.BaseType != null) &&
+                      type.BaseType.IsGenericType &&
+                      (type.BaseType.GetGenericTypeDefinition() == typeof (BaseMap<>) ||
+                       type.BaseType.GetGenericTypeDefinition() == typeof (BaseBusinessEntityWithIdMap<>))
+                select type).ToList();
+
+            entityConfigTypes.ForEach(entConfigType => {
+                dynamic entityConfigInstance = Activator.CreateInstance(entConfigType);
+                modelBuilder.Configurations.Add(entityConfigInstance);
+            });
+        }
+
+        public DbSet<T> Set<T>() where T : class {
             return base.Set<T>();
         }
 
@@ -105,16 +70,8 @@ namespace DatingHeaven.DataAccessLayer {
             }
         }
 
-
-        public AdapterDbSet<TEntity> AdapterSet<TEntity>() where TEntity: BaseEntity{
-            var dbSet = base.Set<TEntity>();
-            return new AdapterDbSet<TEntity>(dbSet);
-        } 
-
-
-
-
-
-
+        public DbSet Set(string entitySetName) {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -8,6 +8,8 @@ using DatingHeaven.Entities;
 
 namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenerators {
     public abstract class EntitySqlGenerator : SqlGenerator{
+        private List<IWhereConditionRoot>  _conditionsList = new List<IWhereConditionRoot>();
+        private List<LogicalOperation> _logicalOperationsList = new List<LogicalOperation>(); 
 
         protected EntitySqlGenerator(SqlGeneratorConfig config) : base(config){
            
@@ -19,14 +21,22 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
             set; 
         }
 
-        public List<IWhereCondition> WhereConditions{
-            get; 
-            set; 
+        public List<IWhereConditionRoot> WhereConditions{
+            get{
+                return _conditionsList;
+            }
+            set{
+                _conditionsList = value;
+            }
         }
 
         public List<LogicalOperation> LogicalOperations{
-            get; 
-            set; 
+            get{
+                return _logicalOperationsList;
+            }
+            set{
+                _logicalOperationsList = value;
+            }
         } 
 
 
@@ -84,7 +94,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
 
         private void WriteConditions(StringBuilder sb){
             for (var conditionIndex = 0; conditionIndex < WhereConditions.Count; conditionIndex++){
-                IWhereCondition condition = WhereConditions[conditionIndex]; 
+                IWhereConditionRoot condition = WhereConditions[conditionIndex]; 
 
                 if (conditionIndex > 0){
                     var logicalOperation = LogicalOperations[conditionIndex - 1];
@@ -128,7 +138,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
             sb.AppendFormat("[{0}]", whereCondition.Column);
 
             // write the OPERATOR part
-            WriteLogicalOperator(sb, whereCondition.Operator);
+            WriteComparisonOperator(sb, whereCondition.Operator);
 
             WriteConditionIndex(sb, whereCondition.ParameterIndex);
         }
@@ -150,29 +160,29 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
             }
         }
 
-        private void WriteLogicalOperator(StringBuilder sb, SqlOperator sqlOperator){
+        private void WriteComparisonOperator(StringBuilder sb, Comparison comparison){
             sb.Append(" ");
 
-            switch (sqlOperator){
-                 case SqlOperator.Equals:
+            switch (comparison){
+                 case Comparison.Equals:
                     sb.Append("=");
                     break;
-                case SqlOperator.NotEquals:
+                case Comparison.NotEquals:
                     sb.Append("!=");
                     break;
-                case SqlOperator.GreaterThan:
+                case Comparison.GreaterThan:
                     sb.Append(">");
                     break;
-                case SqlOperator.LessThan:
+                case Comparison.LessThan:
                     sb.Append("<");
                     break;
-                case SqlOperator.LessOrEquals:
+                case Comparison.LessOrEquals:
                     sb.Append("<=");
                     break;
-                case SqlOperator.GreaterOrEquals:
+                case Comparison.GreaterOrEquals:
                     sb.Append(">=");
                     break;
-                case SqlOperator.Is:
+                case Comparison.Is:
                     sb.Append("is");
                     break;
             }

@@ -16,18 +16,12 @@ namespace DatingHeaven.Entities {
             Id = 0;
         }
 
-
-        [Key]
-        [Required]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Column(Order = 0)]
         public int Id{
             get{
                 return _entityId;
             }
             set{
                 _entityId = value;
-               //OnEntityKeySet(_entityId);
             }
         }
     }

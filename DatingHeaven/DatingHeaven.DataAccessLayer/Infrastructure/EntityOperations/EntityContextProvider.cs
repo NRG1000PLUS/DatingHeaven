@@ -73,7 +73,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
             if (entityKey is int){
                 var whereIdCondition = new WhereCondition{
                     Column = "Id",
-                    Operator = SqlOperator.Equals,
+                    Operator = Comparison.Equals,
                     Value = entityKey
                 };
                 sqlGenerator.WhereConditions.Add(whereIdCondition);
@@ -82,7 +82,7 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations {
                 keys.ForEach(key =>{
                     var whereCondition = new WhereCondition{
                         Column = _entityInfoResolver.GetEntityKeyPropertyName<T>(keys.IndexOf(key)),
-                        Operator = SqlOperator.Equals,
+                        Operator = Comparison.Equals,
                         Value = key
                     };
                     sqlGenerator.WhereConditions.Add(whereCondition);

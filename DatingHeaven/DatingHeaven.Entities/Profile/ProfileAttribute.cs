@@ -14,14 +14,12 @@ namespace DatingHeaven.Entities.Profile {
             HasMultipleValues = false;
         }
 
-        [Required]
         public bool HasMultipleValues{
             get; 
             set; 
         }
 
-        [ForeignKey("ProfileAttributeId")]
-        public IList<ProfileAttributeValue> Values{
+        public virtual IList<ProfileAttributeValue> Values{
             get; 
             set; 
         } 

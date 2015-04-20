@@ -26,12 +26,12 @@ namespace DatingHeaven.DataAccessLayer.Infrastructure.EntityOperations.SqlGenera
             return new DeleteEntitySqlGenerator(CreateConfig());
         }
 
-        public object[] BuildParametersList(IEnumerable<IWhereCondition> whereConditions){
+        public object[] BuildParametersList(IEnumerable<IWhereConditionRoot> whereConditions){
 
             return BuildParametersRecursive(0, whereConditions);
         }
 
-        private object[] BuildParametersRecursive(int conditionIndex, IEnumerable<IWhereCondition> conditionsList){
+        private object[] BuildParametersRecursive(int conditionIndex, IEnumerable<IWhereConditionRoot> conditionsList){
             List<object> parametersList = new List<object>();
 
             foreach(var condition in conditionsList){

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 
 namespace DatingHeaven.Entities {
-    [Table("Messages", Schema = "dbo")]
+    [Table("Messages")]
     public class Message: BaseBusinessEntityWithId {
 
         public Message(){
@@ -15,33 +15,44 @@ namespace DatingHeaven.Entities {
             IsRead = false;
         }
 
-
-        [Required]
         public int SenderId{
             get; 
             set; 
         }
 
-        [Required]
         public int ReceiverId{
             get; 
             set; 
         }
 
-        [Required]
         public bool IsRead{
             get; 
             set; 
         }
 
-        [MaxLength(1000)]
         public string Header{
             get; 
             set; 
         }
 
-        [MaxLength(5000)]
         public string Body{
+            get; 
+            set; 
+        }
+
+
+        /// <summary>
+        /// The Sender of this message
+        /// </summary>
+        public virtual Members.Member Author{
+            get; 
+            set; 
+        }
+
+        /// <summary>
+        /// The Receiver of this message
+        /// </summary>
+        public virtual Members.Member Receiver{
             get; 
             set; 
         }

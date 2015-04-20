@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BaseTests {
     class RandomDataGenerator {
-        private Random _random = new Random();
+        private readonly Random _random = new Random();
         private const int MIN_RANDOM_INT = 10000;
         private const int MAX_RANDOM_INT = 1000000;
 
@@ -20,6 +20,10 @@ namespace BaseTests {
                 sb.Append((char)_random.Next(65, 65 + 26));
             }
             return sb.ToString();
+        }
+
+        public int RandomIntBetween(int start, int end){
+            return _random.Next(start, end);
         }
 
         public bool RandomBool(){

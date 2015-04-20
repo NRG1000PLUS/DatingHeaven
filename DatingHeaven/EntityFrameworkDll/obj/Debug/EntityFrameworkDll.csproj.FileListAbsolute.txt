@@ -7,7 +7,6 @@ C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\b
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\obj\Debug\EntityFrameworkDll.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\obj\Debug\EntityFrameworkDll.pdb
-C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\obj\Debug\EntityFrameworkDll.csprojResolveAssemblyReference.cache
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\DotNetOpenAuth.AspNet.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\DotNetOpenAuth.Core.dll
 C:\Users\Valeriy\Documents\GitHub\DatingHeaven\DatingHeaven\EntityFrameworkDll\bin\Debug\DotNetOpenAuth.OAuth.Consumer.dll

@@ -14,7 +14,7 @@ namespace DatingHeaven.DataAccessLayer {
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        DbSet<T> GetSet<T>() where T: class;
+        DbSet<T> Set<T>() where T: class;
 
 
         DbEntityEntry Entry(object entity);
@@ -34,5 +34,8 @@ namespace DatingHeaven.DataAccessLayer {
         /// </summary>
         /// <returns></returns>
         int SaveChanges();
+
+
+        DbSet Set(string entitySetName);
     }
 }

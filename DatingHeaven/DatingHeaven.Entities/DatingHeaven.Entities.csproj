@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthInfo.cs" />
     <Compile Include="BaseBusinessEntity.cs" />
     <Compile Include="BaseEntity.cs" />
     <Compile Include="BaseBusinessEntityWithId.cs" />
@@ -61,21 +62,27 @@
     <Compile Include="BlockList\BlockDuration.cs" />
     <Compile Include="BlockList\BlockListEntry.cs" />
     <Compile Include="BlockList\BlockReason.cs" />
+    <Compile Include="Geo\City.cs" />
     <Compile Include="Geo\Country.cs" />
+    <Compile Include="Geo\RegionState.cs" />
+    <Compile Include="HotListEntry.cs" />
     <Compile Include="IModifiableEntity.cs" />
     <Compile Include="Profile\Profile.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Profile\ProfileAttribute.cs" />
-    <Compile Include="Profile\ProfileAttributeValue.cs.cs" />
+    <Compile Include="Profile\ProfileAttributeValue.cs" />
     <Compile Include="Profile\ProfileAttributeValueType.cs" />
     <Compile Include="Profile\ProfileItem.cs" />
+    <Compile Include="Profile\ProfileMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Member\Gender.cs" />
-    <Compile Include="Member\Member.cs" />
+    <Compile Include="Members\Gender.cs" />
+    <Compile Include="Members\Member.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Infrastructure\" />
